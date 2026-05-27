@@ -10,8 +10,7 @@ import { Circle } from 'lucide-react'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
 import { PublicOnlyRoute, RequireAuth } from './components/AuthRoute'
-
-const API_BASE_URL = 'http://127.0.0.1:8000'
+import { API_BASE_URL } from './config/api'
 
 function AppLayout() {
   const [backendStatus, setBackendStatus] = useState<'checking' | 'online' | 'offline'>('checking')

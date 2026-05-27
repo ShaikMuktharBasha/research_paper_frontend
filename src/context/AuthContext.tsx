@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
 const AUTH_STORAGE_KEY = 'ai-research-simplifier-auth-user';
 
 export type AuthUser = {
