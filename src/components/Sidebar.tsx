@@ -166,18 +166,23 @@ const Sidebar = () => {
       >
         <div className="sidebar-surface flex h-full flex-col overflow-hidden">
           <div className="sidebar-scroll min-h-0 flex-1 overflow-y-auto pb-3">
-            <div className="border-b border-white/8 px-3 pb-3 pt-4">
-              <div className="flex items-center gap-3 px-1">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white">
-                    <BrainCircuit size={16} />
-                  </div>
+            <div className="sidebar-brand-wrap px-3 pb-3 pt-4">
+              <div className="sidebar-brand-card">
+                <div className="sidebar-brand-icon">
+                  <BrainCircuit size={16} />
                 </div>
-                <p className="text-sm font-semibold text-white">Research Paper Workspace</p>
+                <div className="min-w-0">
+                  <p className="sidebar-eyebrow">AI research desk</p>
+                  <p className="sidebar-title">Research Paper Workspace</p>
+                </div>
               </div>
             </div>
 
-            <div className="space-y-1 px-2">
+            <div className="px-4">
+              <p className="sidebar-section-label">Navigate</p>
+            </div>
+
+            <div className="mt-2 space-y-1 px-2">
               {primaryItems.map(({ to, label, icon: Icon, primary }) => (
                 <NavLink
                   key={`${to}-${label}`}
@@ -196,11 +201,11 @@ const Sidebar = () => {
             </div>
 
             <div className="mt-5 px-4">
-              <div className="rounded-2xl border border-white/8 bg-white/[0.03] px-3 py-3">
-                <div className="flex items-center justify-between gap-3">
+              <div className="sidebar-document-card">
+                <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.12em] text-white/45">Document</p>
-                    <p className="mt-1 text-sm font-medium text-white">
+                    <p className="sidebar-section-label">Latest paper</p>
+                    <p className="mt-2 text-sm font-medium text-white">
                       {latestUpload ? truncateLabel(latestUpload.filename, 30) : 'No saved paper yet'}
                     </p>
                   </div>
@@ -208,13 +213,13 @@ const Sidebar = () => {
                     <Link
                       to={`/workspace?docId=${latestUpload.doc_id}`}
                       onClick={() => setIsMenuOpen(false)}
-                      className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white text-black transition-transform hover:scale-[1.02]"
+                      className="sidebar-open-workspace"
                       aria-label="Open latest workspace"
                     >
                       <BrainCircuit size={18} />
                     </Link>
                   ) : (
-                    <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-white/30">
+                    <div className="sidebar-open-workspace is-disabled">
                       <BrainCircuit size={18} />
                     </div>
                   )}
@@ -222,13 +227,13 @@ const Sidebar = () => {
 
                 {dashboardStats && (
                   <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-white/65">
-                    <div className="rounded-xl border border-white/8 bg-black/20 px-3 py-2">
-                      <p className="text-white/35">Papers</p>
-                      <p className="mt-1 text-sm font-semibold text-white">{dashboardStats.papers_decoded}</p>
+                    <div className="sidebar-stat-tile">
+                      <p className="sidebar-stat-label">Papers</p>
+                      <p className="sidebar-stat-value">{dashboardStats.papers_decoded}</p>
                     </div>
-                    <div className="rounded-xl border border-white/8 bg-black/20 px-3 py-2">
-                      <p className="text-white/35">Time saved</p>
-                      <p className="mt-1 text-sm font-semibold text-white">
+                    <div className="sidebar-stat-tile">
+                      <p className="sidebar-stat-label">Time saved</p>
+                      <p className="sidebar-stat-value">
                         {dashboardStats.estimated_time_saved_minutes} min
                       </p>
                     </div>
@@ -239,7 +244,7 @@ const Sidebar = () => {
 
             <div className="mt-5 px-4">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-white">Quick tools</p>
+                <p className="sidebar-section-label">Toolkit</p>
                 <Sparkles size={14} className="text-white/45" />
               </div>
             </div>
@@ -261,7 +266,7 @@ const Sidebar = () => {
             </div>
 
             <div className="mt-5 px-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-white">Recents</p>
+              <p className="sidebar-section-label">Recents</p>
             </div>
 
             <div className="mt-2 px-2">
@@ -272,7 +277,7 @@ const Sidebar = () => {
                   value={recentSearch}
                   onChange={(event) => setRecentSearch(event.target.value)}
                   placeholder="Search uploads"
-                  className="w-full rounded-xl border border-white/8 bg-white/[0.03] py-2 pl-9 pr-3 text-sm text-white outline-none transition-colors placeholder:text-white/30 focus:border-white/20"
+                  className="sidebar-search-input w-full py-2 pl-9 pr-3 text-sm text-white outline-none transition-colors placeholder:text-white/30"
                 />
               </label>
             </div>
@@ -281,7 +286,7 @@ const Sidebar = () => {
               {isLoadingRecent ? (
                 <div className="space-y-2">
                   {[1, 2, 3, 4].map((item) => (
-                    <div key={item} className="rounded-xl px-3 py-3">
+                    <div key={item} className="sidebar-skeleton-card">
                       <div className="h-3 w-32 rounded-full bg-white/10" />
                       <div className="mt-2 h-2 w-20 rounded-full bg-white/10" />
                     </div>
@@ -329,14 +334,15 @@ const Sidebar = () => {
             </div>
           </div>
 
-          <div className="shrink-0 border-t border-white/8 px-3 py-3">
+          <div className="sidebar-footer-wrap shrink-0 px-3 py-3">
             {user && (
-              <div className="mb-2 rounded-xl border border-white/8 bg-white/[0.03] px-3 py-3">
+              <div className="sidebar-account-card mb-2">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/8 text-white">
+                  <div className="sidebar-account-avatar">
                     <UserCircle2 size={18} />
                   </div>
                   <div className="min-w-0">
+                    <p className="sidebar-eyebrow">Signed in</p>
                     <p className="truncate text-sm font-medium text-white">{user.name}</p>
                     <p className="truncate text-xs text-white/50">{user.email}</p>
                   </div>
@@ -344,19 +350,19 @@ const Sidebar = () => {
               </div>
             )}
 
-            <div className="flex flex-col gap-1">
+            <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={toggleDarkMode}
-                className="chat-sidebar-footer-item"
+                className="sidebar-action-button"
               >
                 {darkMode ? <SunMedium size={17} /> : <Moon size={17} />}
-                <span>{darkMode ? 'Light mode' : 'Dark mode'}</span>
+                <span>{darkMode ? 'Light' : 'Dark'}</span>
               </button>
               <button
                 type="button"
                 onClick={logout}
-                className="chat-sidebar-footer-item"
+                className="sidebar-action-button"
               >
                 <LogOut size={17} />
                 <span>Log out</span>

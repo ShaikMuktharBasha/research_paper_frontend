@@ -1,10 +1,10 @@
 import React, { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   AlertCircle,
+  Check,
   CheckCircle2,
   Copy,
   FileQuestion,
-  Check,
   Loader2,
   MessageSquare,
   SendHorizontal,
@@ -94,7 +94,7 @@ const ResultPage = () => {
       }
     };
 
-    loadSavedPaper();
+    void loadSavedPaper();
 
     return () => {
       isMounted = false;
@@ -143,7 +143,7 @@ const ResultPage = () => {
   const handleQuestionKeyDown = (event: KeyboardEvent<HTMLTextAreaElement>) => {
     if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
       event.preventDefault();
-      askQuestionAboutPaper();
+      void askQuestionAboutPaper();
     }
   };
 
@@ -220,30 +220,29 @@ const ResultPage = () => {
 
   if (!docId) {
     return (
-      <div className="mx-auto flex min-h-[calc(100vh-10rem)] max-w-3xl items-center justify-center">
-        <div className="app-surface w-full rounded-[24px] p-8 text-center">
-          <p className="text-sm text-soft">No result selected yet.</p>
-          <h1 className="mt-3 text-2xl font-semibold text-[var(--text-strong)]">Open a paper workspace from the home page</h1>
-          <Link to="/" className="primary-button mt-6 rounded-[16px]">
-            Go to home
-          </Link>
+      <div className="page-shell animate-rise">
+        <div className="mx-auto flex min-h-[calc(100vh-10rem)] w-full max-w-3xl items-center justify-center">
+          <div className="panel-card w-full p-8 text-center">
+            <p className="page-kicker">No paper selected</p>
+            <h1 className="mt-4 text-2xl font-semibold text-[var(--text-strong)]">Open a saved paper workspace from the home page.</h1>
+            <Link to="/" className="primary-button mt-6 rounded-[18px]">
+              Go to home
+            </Link>
+          </div>
         </div>
       </div>
     );
   }
 
-  return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-6 animate-rise">
-      <section className="border-b border-[var(--border)] pb-8 pt-2">
-        <p className="text-xs font-medium uppercase tracking-[0.16em] text-soft">Result workspace</p>
-        <h1 className="mt-4 max-w-4xl text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-5xl md:leading-[1.08]">
-          Review the paper, ask follow-up questions, and generate a recap quiz.
-        </h1>
-      </section>
-
-      {isLoadingPaper ? (
-        <section className="app-surface rounded-[24px] p-6">
-          <p className="text-sm text-soft">Opening saved analysis...</p>
+  if (isLoadingPaper) {
+    return (
+      <div className="page-shell animate-rise">
+        <section className="page-hero">
+          <p className="page-kicker">Paper workspace</p>
+          <h1 className="page-title max-w-[12ch]">Opening your saved analysis.</h1>
+        </section>
+        <section className="panel-card p-6">
+          <p className="panel-copy">Loading summary, explanation, and study tools.</p>
           <div className="mt-5 grid gap-4">
             {[1, 2, 3].map((item) => (
               <div key={item} className="subtle-panel rounded-[20px] p-5">
@@ -257,194 +256,225 @@ const ResultPage = () => {
             ))}
           </div>
         </section>
-      ) : error ? (
-        <section className="app-surface rounded-[24px] p-6">
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="page-shell animate-rise">
+        <section className="page-hero">
+          <p className="page-kicker">Paper workspace</p>
+          <h1 className="page-title max-w-[12ch]">This paper could not be opened right now.</h1>
+        </section>
+        <section className="panel-card p-6">
           <div className="flex items-start gap-3 rounded-[18px] border border-red-400/20 bg-red-400/10 px-4 py-4 text-sm text-red-700 dark:text-red-300">
             <AlertCircle size={18} className="mt-0.5 shrink-0" />
             <span>{error}</span>
           </div>
         </section>
-      ) : result ? (
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-          <div className="app-surface flex min-h-[720px] flex-col rounded-[24px] p-6">
-            <div className="flex flex-col gap-4 border-b border-[var(--border)] pb-5 lg:flex-row lg:items-start lg:justify-between">
-              <div className="min-w-0">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[16px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
-                    <CheckCircle2 size={18} />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-xs uppercase tracking-[0.16em] text-soft">Analysis complete</p>
-                    <p className="truncate text-lg font-semibold text-main">{result.filename}</p>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-wrap gap-3 text-sm text-soft">
-                  <span>{result.stats.total_pages} pages</span>
-                  <span className="text-white/20">/</span>
-                  <span>{result.stats.word_count.toLocaleString()} words</span>
-                  <span className="text-white/20">/</span>
-                  <span>{result.stats.reading_time_minutes} min read</span>
-                </div>
-              </div>
+      </div>
+    );
+  }
 
-              <Link to="/" className="secondary-button shrink-0 rounded-[16px]">
-                Start new analysis
-              </Link>
+  if (!result) {
+    return null;
+  }
+
+  return (
+    <div className="page-shell animate-rise">
+      <section className="page-hero">
+        <p className="page-kicker">Paper workspace</p>
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="min-w-0">
+            <h1 className="page-title max-w-[14ch]">{result.filename}</h1>
+            <p className="page-copy">
+              Review the summary, switch between explanation modes, ask focused questions, and generate a compact recap quiz without leaving the same workspace.
+            </p>
+          </div>
+          <Link to="/" className="secondary-button shrink-0 rounded-[18px]">
+            Start new analysis
+          </Link>
+        </div>
+
+        <div className="mt-6 flex flex-wrap gap-3">
+          <span className="stat-chip">{result.stats.total_pages} pages</span>
+          <span className="stat-chip">{result.stats.word_count.toLocaleString()} words</span>
+          <span className="stat-chip">{result.stats.reading_time_minutes} min read</span>
+        </div>
+      </section>
+
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_340px]">
+        <div className="panel-card flex flex-col p-6 md:p-8">
+          <div className="flex flex-col gap-4 border-b border-[var(--border)] pb-5 md:flex-row md:items-start md:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
+                <CheckCircle2 size={20} />
+              </div>
+              <div>
+                <p className="page-kicker">Analysis complete</p>
+                <p className="mt-1 text-base font-semibold text-main">Switch between the main output views below.</p>
+              </div>
             </div>
 
-            <div className="mt-5 flex flex-wrap gap-2">
-              {resultTabs.map((tab) => (
+            <button type="button" onClick={() => void copyInsight()} className="secondary-button rounded-full px-4 py-2">
+              {copiedState === 'insight' ? <Check size={15} /> : <Copy size={15} />}
+              {copiedState === 'insight' ? 'Copied' : 'Copy section'}
+            </button>
+          </div>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {resultTabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'bg-[var(--text-strong)] text-[var(--bg)] shadow-[0_14px_30px_rgba(0,0,0,0.16)] dark:bg-white dark:text-slate-950'
+                    : 'border border-[var(--border)] bg-[var(--surface-subtle)] text-soft hover:border-[var(--border-strong)]'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="subtle-surface mt-5 flex min-h-[420px] flex-1 flex-col rounded-[24px] p-5 md:p-6">
+            <p className="page-kicker">{activePanel.label}</p>
+            <div className="mt-4 min-h-0 flex-1 overflow-y-auto pr-1">
+              <p className="whitespace-pre-wrap text-sm leading-8 text-main md:text-[15px]">{activePanel.body}</p>
+            </div>
+          </div>
+
+          <div className="subtle-panel mt-5 rounded-[24px] p-5">
+            <p className="panel-title">Preferred style</p>
+            <p className="panel-copy mt-2">Keep a note for how you want this paper explained the next time you open it.</p>
+            <textarea
+              value={analysisPreference}
+              onChange={(event) => setAnalysisPreference(event.target.value)}
+              placeholder="Keep it concise, use simple language, and focus on the novel contribution."
+              className="input-surface mt-4 min-h-[112px] resize-none rounded-[18px]"
+            />
+          </div>
+        </div>
+
+        <div className="panel-stack">
+          <div className="panel-card p-5">
+            <div className="panel-header">
+              <p className="panel-title">Document snapshot</p>
+              <p className="panel-copy">A quick read on the size and pace of this paper.</p>
+            </div>
+            <div className="mt-5 grid gap-3">
+              <div className="info-row">
+                <span className="info-row-index">P</span>
+                <div>
+                  <p className="text-sm font-semibold text-main">{result.stats.total_pages} pages</p>
+                  <p className="info-row-copy">Total pages in the uploaded paper.</p>
+                </div>
+              </div>
+              <div className="info-row">
+                <span className="info-row-index">W</span>
+                <div>
+                  <p className="text-sm font-semibold text-main">{result.stats.word_count.toLocaleString()} words</p>
+                  <p className="info-row-copy">Approximate extracted word count.</p>
+                </div>
+              </div>
+              <div className="info-row">
+                <span className="info-row-index">R</span>
+                <div>
+                  <p className="text-sm font-semibold text-main">{result.stats.reading_time_minutes} min read</p>
+                  <p className="info-row-copy">Estimated reading time from the extracted text.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div ref={chatSectionRef} className="panel-card p-5">
+            <div className="flex items-center gap-2">
+              <MessageSquare size={18} className="text-[var(--accent-strong)]" />
+              <h3 className="panel-title">Ask the paper</h3>
+            </div>
+            <p className="panel-copy mt-2">
+              Write one focused question. Use <span className="text-mono">Ctrl + Enter</span> to send it faster.
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-2">
+              {quickQuestions.map((prompt) => (
                 <button
-                  key={tab.id}
+                  key={prompt}
                   type="button"
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                    activeTab === tab.id
-                      ? 'bg-[var(--text-strong)] text-[var(--bg)] shadow-[0_14px_30px_rgba(0,0,0,0.16)] dark:bg-white dark:text-slate-950'
-                      : 'border border-[var(--border)] bg-[var(--surface-subtle)] text-soft hover:border-[var(--border-strong)]'
-                  }`}
+                  onClick={() => setChatQuestion(prompt)}
+                  className="rounded-full border border-[var(--border)] bg-[var(--surface-subtle)] px-3 py-1.5 text-xs text-soft transition-colors hover:border-[var(--border-strong)] hover:text-main"
                 >
-                  {tab.label}
+                  {prompt}
                 </button>
               ))}
-              <button
-                type="button"
-                onClick={() => void copyInsight()}
-                className="secondary-button rounded-full px-4 py-2"
-              >
-                {copiedState === 'insight' ? <Check size={15} /> : <Copy size={15} />}
-                {copiedState === 'insight' ? 'Copied' : 'Copy section'}
-              </button>
             </div>
 
-            <div className="subtle-surface mt-5 flex min-h-0 flex-1 flex-col rounded-[20px] p-5">
-              <div className="shrink-0">
-                <p className="text-xs uppercase tracking-[0.16em] text-soft">{activePanel.label}</p>
-              </div>
-              <div className="mt-4 min-h-0 flex-1 overflow-y-auto pr-1">
-                <p className="whitespace-pre-wrap text-sm leading-8 text-main md:text-[15px]">{activePanel.body}</p>
-              </div>
-            </div>
+            <textarea
+              ref={chatTextareaRef}
+              value={chatQuestion}
+              onChange={(event) => setChatQuestion(event.target.value)}
+              onKeyDown={handleQuestionKeyDown}
+              placeholder="What is the main contribution of this paper?"
+              className="input-surface mt-4 min-h-[128px] resize-none rounded-[18px]"
+            />
 
-            <div className="subtle-panel mt-5 rounded-[20px] p-4">
-              <p className="text-sm font-medium text-main">Preferred style</p>
-              <textarea
-                value={analysisPreference}
-                onChange={(event) => setAnalysisPreference(event.target.value)}
-                placeholder="Example: Keep it concise, use simple language, and focus on the novel contribution."
-                className="input-surface mt-3 min-h-[104px] resize-none rounded-[16px]"
-              />
-              <p className="mt-3 text-xs text-soft">Saved locally for this paper so your notes are still here when you reopen it.</p>
-            </div>
+            <button
+              onClick={() => void askQuestionAboutPaper()}
+              disabled={isAskingQuestion || !chatQuestion.trim()}
+              className="primary-button mt-4 w-full rounded-[18px] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isAskingQuestion ? <Loader2 className="animate-spin" size={16} /> : <SendHorizontal size={16} />}
+              Ask question
+            </button>
+
+            {chatAnswer ? (
+              <div className="subtle-surface mt-4 rounded-[20px] p-4">
+                <p className="page-kicker">Answer</p>
+                <div className="mt-3 max-h-[260px] overflow-y-auto pr-1">
+                  <p className="whitespace-pre-wrap text-sm leading-7 text-main">{chatAnswer}</p>
+                </div>
+              </div>
+            ) : (
+              <div className="surface-note mt-4">
+                Ask about the paper&apos;s contribution, method, dataset, limitations, or future work.
+              </div>
+            )}
           </div>
 
-          <div className="grid gap-4 xl:grid-rows-[auto_minmax(0,1fr)_minmax(0,1fr)]">
-            <div className="app-surface rounded-[24px] p-5">
-              <p className="text-sm font-medium text-main">Document stats</p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-3 xl:grid-cols-1">
-                <div className="subtle-panel rounded-[18px] px-4 py-4">
-                  <p className="text-xs uppercase tracking-[0.14em] text-soft">Pages</p>
-                  <p className="mt-2 text-2xl font-semibold text-[var(--text-strong)]">{result.stats.total_pages}</p>
-                </div>
-                <div className="subtle-panel rounded-[18px] px-4 py-4">
-                  <p className="text-xs uppercase tracking-[0.14em] text-soft">Words</p>
-                  <p className="mt-2 text-2xl font-semibold text-[var(--text-strong)]">{result.stats.word_count.toLocaleString()}</p>
-                </div>
-                <div className="subtle-panel rounded-[18px] px-4 py-4">
-                  <p className="text-xs uppercase tracking-[0.14em] text-soft">Reading time</p>
-                  <p className="mt-2 text-2xl font-semibold text-[var(--text-strong)]">{result.stats.reading_time_minutes} min</p>
-                </div>
-              </div>
+          <div ref={quizSectionRef} className="panel-card p-5">
+            <div className="flex items-center gap-2">
+              <FileQuestion size={18} className="text-[var(--accent-strong)]" />
+              <h3 className="panel-title">Quick quiz</h3>
             </div>
+            <p className="panel-copy mt-2">Generate a compact recap quiz after your first skim.</p>
 
-            <div ref={chatSectionRef} className="app-surface flex min-h-0 flex-col rounded-[24px] p-5">
-              <div className="flex items-center gap-2">
-                <MessageSquare size={18} className="text-[var(--accent-strong)]" />
-                <h3 className="text-base font-semibold text-main">Ask the paper</h3>
+            <button
+              onClick={() => void loadQuiz()}
+              disabled={isLoadingQuiz}
+              className="secondary-button mt-4 w-full rounded-[18px] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isLoadingQuiz ? <Loader2 className="animate-spin" size={16} /> : <Sparkles size={16} />}
+              Generate quiz
+            </button>
+
+            {quiz ? (
+              <div className="subtle-surface mt-4 rounded-[20px] p-4">
+                <p className="page-kicker">Quiz output</p>
+                <div className="mt-3 max-h-[260px] overflow-y-auto pr-1">
+                  <p className="whitespace-pre-wrap text-sm leading-7 text-main">{quiz}</p>
+                </div>
               </div>
-              <p className="mt-2 text-sm leading-6 text-soft">
-                Write one focused question. Use <span className="text-mono">Ctrl + Enter</span> to send it faster.
-              </p>
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {quickQuestions.map((prompt) => (
-                  <button
-                    key={prompt}
-                    type="button"
-                    onClick={() => setChatQuestion(prompt)}
-                    className="rounded-full border border-[var(--border)] bg-[var(--surface-subtle)] px-3 py-1.5 text-xs text-soft transition-colors hover:border-[var(--border-strong)] hover:text-main"
-                  >
-                    {prompt}
-                  </button>
-                ))}
+            ) : (
+              <div className="surface-note mt-4">
+                Great for checking whether you understood the abstract, methods, and results after a quick skim.
               </div>
-
-              <textarea
-                ref={chatTextareaRef}
-                value={chatQuestion}
-                onChange={(event) => setChatQuestion(event.target.value)}
-                onKeyDown={handleQuestionKeyDown}
-                placeholder="What is the main contribution of this paper?"
-                className="input-surface mt-4 min-h-[120px] resize-none rounded-[16px]"
-              />
-
-              <button
-                onClick={askQuestionAboutPaper}
-                disabled={isAskingQuestion || !chatQuestion.trim()}
-                className="primary-button mt-4 w-full rounded-[16px] disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isAskingQuestion ? <Loader2 className="animate-spin" size={16} /> : <SendHorizontal size={16} />}
-                Ask question
-              </button>
-
-              {chatAnswer ? (
-                <div className="mt-4 min-h-0 flex-1 rounded-[18px] border border-[var(--border)] bg-[var(--surface-subtle)] p-4">
-                  <p className="text-xs uppercase tracking-[0.14em] text-soft">Answer</p>
-                  <div className="mt-3 max-h-full overflow-y-auto pr-1">
-                    <p className="whitespace-pre-wrap text-sm leading-7 text-main">{chatAnswer}</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="mt-4 rounded-[18px] border border-dashed border-[var(--border)] bg-[var(--surface-subtle)] px-4 py-5 text-sm leading-6 text-soft">
-                  Ask about the paper&apos;s contribution, method, dataset, limitations, or future work.
-                </div>
-              )}
-            </div>
-
-            <div ref={quizSectionRef} className="app-surface flex min-h-0 flex-col rounded-[24px] p-5">
-              <div className="flex items-center gap-2">
-                <FileQuestion size={18} className="text-[var(--accent-strong)]" />
-                <h3 className="text-base font-semibold text-main">Quick quiz</h3>
-              </div>
-              <p className="mt-2 text-sm leading-6 text-soft">
-                Generate a compact recap quiz without pushing the rest of the workspace around.
-              </p>
-
-              <button
-                onClick={loadQuiz}
-                disabled={isLoadingQuiz}
-                className="secondary-button mt-4 w-full rounded-[16px] disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isLoadingQuiz ? <Loader2 className="animate-spin" size={16} /> : <Sparkles size={16} />}
-                Generate quiz
-              </button>
-
-              {quiz ? (
-                <div className="mt-4 min-h-0 flex-1 rounded-[18px] border border-[var(--border)] bg-[var(--surface-subtle)] p-4">
-                  <p className="text-xs uppercase tracking-[0.14em] text-soft">Quiz output</p>
-                  <div className="mt-3 max-h-full overflow-y-auto pr-1">
-                    <p className="whitespace-pre-wrap text-sm leading-7 text-main">{quiz}</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="mt-4 rounded-[18px] border border-dashed border-[var(--border)] bg-[var(--surface-subtle)] px-4 py-5 text-sm leading-6 text-soft">
-                  Great for checking whether you understood the abstract, methods, and results after a quick skim.
-                </div>
-              )}
-            </div>
+            )}
           </div>
-        </section>
-      ) : null}
+        </div>
+      </section>
     </div>
   );
 };

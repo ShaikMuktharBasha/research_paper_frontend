@@ -3,6 +3,12 @@ import { BrainCircuit, Loader2, UserPlus } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+const signupNotes = [
+  'Keep uploads, summaries, quizzes, and created papers under one account.',
+  'Return to recent documents from the sidebar without rebuilding context.',
+  'Use the same workspace flow across upload, analysis, and export.',
+];
+
 const SignupPage = () => {
   const navigate = useNavigate();
   const { signup } = useAuth();
@@ -36,18 +42,26 @@ const SignupPage = () => {
 
   return (
     <div className="mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4 py-10">
-      <div className="grid w-full max-w-5xl gap-6 lg:grid-cols-[1.05fr_460px]">
-        <section className="flex flex-col justify-center">
-          <p className="section-badge w-fit">Create account</p>
-          <h1 className="mt-5 max-w-3xl text-4xl font-semibold leading-tight text-[var(--text-strong)] md:text-6xl md:leading-[1.04]">
-            Sign up once and keep your paper workflows in one place.
-          </h1>
-          <p className="mt-5 max-w-2xl text-sm leading-7 text-soft md:text-[15px]">
-            Create a simple account to access uploads, summaries, quizzes, and the research-paper builder.
-          </p>
+      <div className="grid w-full max-w-5xl gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+        <section className="auth-hero-card flex flex-col justify-between">
+          <div>
+            <p className="page-kicker">Create account</p>
+            <h1 className="page-title mt-0 max-w-[12ch]">Set up your account and keep the whole workflow together.</h1>
+            <p className="page-copy max-w-xl">
+              Create one simple sign-in to manage uploads, saved workspaces, quizzes, and paper exports from the same minimal app shell.
+            </p>
+          </div>
+
+          <div className="mt-8 space-y-3">
+            {signupNotes.map((note) => (
+              <div key={note} className="auth-point">
+                {note}
+              </div>
+            ))}
+          </div>
         </section>
 
-        <section className="app-surface rounded-[28px] p-6 md:p-8">
+        <section className="panel-card rounded-[32px] p-6 md:p-8">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
               <BrainCircuit size={22} />
@@ -107,11 +121,11 @@ const SignupPage = () => {
               />
             </div>
 
-            {error && (
+            {error ? (
               <div className="rounded-[18px] border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
                 {error}
               </div>
-            )}
+            ) : null}
 
             <button
               type="submit"

@@ -67,8 +67,14 @@ const formDefaults = {
 };
 
 const formatOptions: Array<{ value: DownloadFormat; label: string; description: string }> = [
-  { value: 'pdf', label: 'PDF', description: 'Best for fixed layout and sharing' },
-  { value: 'docx', label: 'Word', description: 'Best for editing in Word or Google Docs' },
+  { value: 'pdf', label: 'PDF', description: 'Fixed layout for sharing and submission' },
+  { value: 'docx', label: 'Word', description: 'Editable output for Word or Google Docs' },
+];
+
+const builderNotes = [
+  'Add only the sections you need. Empty sections stay out of the final file.',
+  'If the backend builder is unavailable, the page still creates the file locally.',
+  'References can be added one per line or separated with semicolons.',
 ];
 
 const cleanText = (value: string) => value.replace(/\r/g, '').trim();
@@ -318,6 +324,7 @@ const downloadAsPdf = (payload: PaperResponse) => {
   };
 
   const addWrappedText = (text: string, fontSize = 11, lineHeight = 18) => {
+    pdf.setFontSize(fontSize);
     const lines = pdf.splitTextToSize(text, maxWidth);
     lines.forEach((line: string) => {
       ensureSpace(lineHeight);
@@ -412,10 +419,10 @@ const CreatePaperPage = () => {
       {
         title: 'Paper identity',
         fields: [
-          { key: 'title', label: 'Paper title', placeholder: 'Example: Explainable AI for Clinical Triage Systems', type: 'input', span: 'full' },
+          { key: 'title', label: 'Paper title', placeholder: 'Explainable AI for Clinical Triage Systems', type: 'input', span: 'full' },
           { key: 'authors', label: 'Authors', placeholder: 'One per line or comma separated', type: 'textarea', span: 'half' },
-          { key: 'affiliations', label: 'Affiliations', placeholder: 'Example: Department of Computer Science, ABC University', type: 'textarea', span: 'half' },
-          { key: 'keywords', label: 'Keywords', placeholder: 'Example: explainability, triage, healthcare AI', type: 'textarea', span: 'full' },
+          { key: 'affiliations', label: 'Affiliations', placeholder: 'Department of Computer Science, ABC University', type: 'textarea', span: 'half' },
+          { key: 'keywords', label: 'Keywords', placeholder: 'explainability, triage, healthcare AI', type: 'textarea', span: 'full' },
         ],
       },
       {
@@ -487,60 +494,55 @@ const CreatePaperPage = () => {
   };
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col gap-6 animate-rise">
-      <section className="border-b border-[var(--border)] pb-8 pt-2">
-        <p className="text-xs font-medium uppercase tracking-[0.16em] text-soft">Paper creation</p>
-        <h1 className="mt-4 max-w-5xl text-3xl font-semibold leading-tight text-[var(--text-strong)] md:text-5xl md:leading-[1.08]">
-          Provide your research-paper components and turn them into a downloadable paper file.
-        </h1>
-        <p className="mt-4 max-w-3xl text-sm leading-7 text-soft md:text-[15px]">
-          Fill in the usual paper sections like abstract, introduction, methodology, results, and references. The builder will convert them into a clean research-paper structure and download the file directly as PDF or Word based on the selected format.
+    <div className="page-shell animate-rise">
+      <section className="page-hero">
+        <p className="page-kicker">Paper builder</p>
+        <h1 className="page-title max-w-[13ch]">Assemble your sections into a cleaner paper export.</h1>
+        <p className="page-copy">
+          Fill in the parts you already know, choose a format, and generate a downloadable research-paper file without leaving the app.
         </p>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[460px_minmax(0,1fr)]">
-        <div className="app-surface rounded-[24px] p-6">
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+        <div className="panel-card p-6 md:p-8">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
               <PencilLine size={20} />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-[var(--text-strong)]">Research paper assembler</h2>
-              <p className="mt-1 text-sm text-soft">Your content goes in section by section. The app formats it into a proper paper layout.</p>
+              <p className="panel-title">Research paper assembler</p>
+              <p className="panel-copy mt-1">Build the file section by section, then download it right away.</p>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <p className="panel-title">Download format</p>
+            <div className="mt-3 grid gap-3 md:grid-cols-2">
+              {formatOptions.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setSelectedFormat(option.value)}
+                  className={`rounded-[20px] border px-4 py-4 text-left transition-all duration-200 ${
+                    selectedFormat === option.value
+                      ? 'border-[var(--accent)] bg-[var(--brand-soft)] shadow-[0_12px_28px_var(--accent-glow)]'
+                      : 'border-[var(--border)] bg-[var(--surface-subtle)] hover:border-[var(--border-strong)]'
+                  }`}
+                >
+                  <p className="text-sm font-semibold text-main">{option.label}</p>
+                  <p className="mt-1 text-xs leading-6 text-soft">{option.description}</p>
+                </button>
+              ))}
             </div>
           </div>
 
           <div className="mt-6 space-y-6">
-            <div>
-              <p className="text-sm font-semibold text-main">Download format</p>
-              <div className="mt-3 grid gap-3 md:grid-cols-2">
-                {formatOptions.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    onClick={() => setSelectedFormat(option.value)}
-                    className={`rounded-[18px] border px-4 py-4 text-left transition-all duration-200 ${
-                      selectedFormat === option.value
-                        ? 'border-[var(--accent)] bg-[var(--brand-soft)] shadow-[0_12px_28px_var(--accent-glow)]'
-                        : 'border-[var(--border)] bg-[var(--surface-subtle)] hover:border-[var(--border-strong)]'
-                    }`}
-                  >
-                    <p className="text-sm font-semibold text-main">{option.label}</p>
-                    <p className="mt-1 text-xs leading-6 text-soft">{option.description}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {fieldGroups.map((group) => (
-              <div key={group.title}>
-                <p className="text-sm font-semibold text-main">{group.title}</p>
-                <div className="mt-3 grid gap-4 md:grid-cols-2">
+              <div key={group.title} className="subtle-panel rounded-[24px] p-5">
+                <p className="panel-title">{group.title}</p>
+                <div className="mt-4 grid gap-4 md:grid-cols-2">
                   {group.fields.map((field) => (
-                    <div
-                      key={field.key}
-                      className={field.span === 'full' ? 'md:col-span-2' : ''}
-                    >
+                    <div key={field.key} className={field.span === 'full' ? 'md:col-span-2' : ''}>
                       <label className="text-sm font-medium text-main">{field.label}</label>
                       {field.type === 'input' ? (
                         <input
@@ -555,7 +557,7 @@ const CreatePaperPage = () => {
                           onChange={(event) => updateField(field.key as keyof typeof form, event.target.value)}
                           placeholder={field.placeholder}
                           className={`input-surface mt-2 resize-none ${
-                            field.span === 'full' ? 'min-h-[120px]' : 'min-h-[96px]'
+                            field.span === 'full' ? 'min-h-[126px]' : 'min-h-[100px]'
                           }`}
                         />
                       )}
@@ -566,15 +568,15 @@ const CreatePaperPage = () => {
             ))}
           </div>
 
-          {error && (
-            <div className="mt-5 rounded-[18px] border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+          {error ? (
+            <div className="mt-5 rounded-[20px] border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
               {error}
             </div>
-          )}
+          ) : null}
 
           <button
             type="button"
-            onClick={buildPaper}
+            onClick={() => void buildPaper()}
             disabled={isBuilding}
             className="primary-button mt-6 w-full rounded-[18px] disabled:cursor-not-allowed disabled:opacity-60"
           >
@@ -583,85 +585,89 @@ const CreatePaperPage = () => {
           </button>
         </div>
 
-        <div className="app-surface min-h-[720px] rounded-[24px] p-6">
-          {result ? (
-            <div className="flex h-full flex-col">
-              <div className="flex flex-col gap-4 border-b border-[var(--border)] pb-5 md:flex-row md:items-start md:justify-between">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.16em] text-soft">Paper preview</p>
-                  <h2 className="mt-2 text-2xl font-semibold text-[var(--text-strong)] md:text-3xl">
-                    {result.title}
-                  </h2>
-                  {result.metadata.authors.length ? (
-                    <p className="mt-3 text-sm text-soft">{result.metadata.authors.join(', ')}</p>
+        <div className="panel-stack">
+          <div className="panel-card p-5">
+            <div className="panel-header">
+              <p className="panel-title">Builder notes</p>
+              <p className="panel-copy">A few details worth keeping in mind before exporting.</p>
+            </div>
+            <div className="mt-5 space-y-3">
+              {builderNotes.map((note) => (
+                <div key={note} className="surface-note">
+                  {note}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="panel-card min-h-[640px] p-6">
+            {result ? (
+              <div className="flex h-full flex-col">
+                <div className="flex flex-col gap-4 border-b border-[var(--border)] pb-5">
+                  <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div>
+                      <p className="page-kicker">Paper preview</p>
+                      <h2 className="mt-2 text-2xl font-semibold text-[var(--text-strong)] md:text-3xl">{result.title}</h2>
+                      {result.metadata.authors.length ? (
+                        <p className="mt-3 text-sm text-soft">{result.metadata.authors.join(', ')}</p>
+                      ) : null}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => void downloadFile(result, selectedFormat)}
+                      className="secondary-button rounded-[18px]"
+                    >
+                      {downloaded ? <Check size={16} /> : <Download size={16} />}
+                      {downloaded ? 'Downloaded' : `Download ${selectedFormat === 'pdf' ? 'PDF' : 'Word'} again`}
+                    </button>
+                  </div>
+
+                  <div className="flex flex-wrap gap-3">
+                    {result.metadata.keywords.map((keyword) => (
+                      <span key={keyword} className="stat-chip">
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-5 flex flex-1 flex-col gap-4 overflow-y-auto pr-1">
+                  {result.metadata.affiliations.length ? (
+                    <div className="subtle-panel rounded-[22px] p-5">
+                      <p className="page-kicker">Affiliations</p>
+                      <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-main">{result.metadata.affiliations.join('\n')}</p>
+                    </div>
                   ) : null}
+
+                  {previewSectionLabels.map(({ key, label }) =>
+                    result.sections[key] ? (
+                      <div key={key} className="subtle-panel rounded-[22px] p-5">
+                        <p className="page-kicker">{label}</p>
+                        <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-main md:text-[15px]">
+                          {Array.isArray(result.sections[key])
+                            ? (result.sections[key] as string[]).join('\n')
+                            : result.sections[key]}
+                        </p>
+                      </div>
+                    ) : null,
+                  )}
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => void downloadFile(result, selectedFormat)}
-                  className="secondary-button rounded-[16px]"
-                >
-                  {downloaded ? <Check size={16} /> : <Download size={16} />}
-                  {downloaded ? 'Downloaded' : `Download ${selectedFormat === 'pdf' ? 'PDF' : 'Word'} again`}
-                </button>
               </div>
-
-              <div className="mt-5 flex flex-col gap-4 overflow-y-auto pr-1">
-                {result.metadata.affiliations.length ? (
-                  <div className="subtle-panel rounded-[20px] p-5">
-                    <p className="text-xs uppercase tracking-[0.16em] text-soft">Affiliations</p>
-                    <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-main">
-                      {result.metadata.affiliations.join('\n')}
-                    </p>
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <div className="max-w-xl text-center">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-[20px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
+                    <PencilLine size={24} />
                   </div>
-                ) : null}
-
-                {previewSectionLabels.map(({ key, label }) =>
-                  result.sections[key] ? (
-                    <div key={key} className="subtle-panel rounded-[20px] p-5">
-                      <p className="text-xs uppercase tracking-[0.16em] text-soft">{label}</p>
-                      <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-main md:text-[15px]">
-                        {Array.isArray(result.sections[key])
-                          ? (result.sections[key] as string[]).join('\n')
-                          : result.sections[key]}
-                      </p>
-                    </div>
-                  ) : null,
-                )}
-
-                {result.metadata.keywords.length ? (
-                  <div className="subtle-panel rounded-[20px] p-5">
-                    <p className="text-xs uppercase tracking-[0.16em] text-soft">Keywords</p>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {result.metadata.keywords.map((keyword) => (
-                        <span
-                          key={keyword}
-                          className="rounded-full border border-[var(--border)] bg-[var(--surface-muted)] px-3 py-1.5 text-sm text-main"
-                        >
-                          {keyword}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          ) : (
-            <div className="flex h-full min-h-[660px] items-center justify-center">
-              <div className="max-w-2xl text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-[20px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
-                  <PencilLine size={24} />
+                  <h2 className="mt-5 text-2xl font-semibold text-[var(--text-strong)]">Your assembled paper will appear here.</h2>
+                  <p className="mt-3 text-sm leading-7 text-soft md:text-[15px]">
+                    Add your sections on the left, build the file, and this preview area will show the exported structure before or after download.
+                  </p>
                 </div>
-                <h2 className="mt-5 text-2xl font-semibold text-[var(--text-strong)]">
-                  Your assembled paper will appear here
-                </h2>
-                <p className="mt-3 text-sm leading-7 text-soft md:text-[15px]">
-                  This tool is designed for users who already know their paper content. Add your sections, build the paper, and download the resulting file immediately.
-                </p>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </section>
     </div>

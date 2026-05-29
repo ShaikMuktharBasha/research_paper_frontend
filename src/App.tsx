@@ -12,6 +12,34 @@ import SignupPage from './pages/SignupPage'
 import { PublicOnlyRoute, RequireAuth } from './components/AuthRoute'
 import { API_BASE_URL } from './config/api'
 
+const getShellMeta = (pathname: string) => {
+  if (pathname === '/upload') {
+    return {
+      eyebrow: 'Upload flow',
+      title: 'Add one paper and move into focus.',
+    }
+  }
+
+  if (pathname === '/workspace') {
+    return {
+      eyebrow: 'Paper workspace',
+      title: 'Review, question, and recap one saved paper.',
+    }
+  }
+
+  if (pathname === '/create-paper') {
+    return {
+      eyebrow: 'Paper builder',
+      title: 'Turn your sections into a clean downloadable paper.',
+    }
+  }
+
+  return {
+    eyebrow: 'Workspace home',
+    title: 'Minimal research desk for uploads, summaries, and study tools.',
+  }
+}
+
 function AppLayout() {
   const [backendStatus, setBackendStatus] = useState<'checking' | 'online' | 'offline'>('checking')
   const location = useLocation()
@@ -59,6 +87,7 @@ function AppLayout() {
         : 'Checking backend'
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/signup'
+  const shellMeta = getShellMeta(location.pathname)
 
   return (
     <div className="relative min-h-screen overflow-hidden text-main transition-colors duration-300">
@@ -88,20 +117,18 @@ function AppLayout() {
         <div className="relative z-10 flex min-h-screen w-full bg-transparent">
           <Sidebar />
           <main className="min-w-0 flex-1 pt-16 md:pt-0">
-            <div className="workspace-panel flex h-full min-h-screen flex-col overflow-hidden">
-              <header className="flex h-14 items-center justify-between border-b border-[var(--border)] px-4 md:px-8">
-                <div className="text-base font-semibold text-[var(--text-strong)]">Research Paper Workspace</div>
-                <button
-                  type="button"
-                  aria-label={statusLabel}
-                  title={statusLabel}
-                  className="inline-flex h-8 items-center gap-2 rounded-full px-3 text-soft transition-colors hover:bg-[var(--surface-subtle)] hover:text-main"
-                >
+            <div className="workspace-panel flex min-h-screen flex-col overflow-hidden">
+              <header className="shell-topbar">
+                <div>
+                  <p className="shell-kicker">{shellMeta.eyebrow}</p>
+                  <p className="shell-title">{shellMeta.title}</p>
+                </div>
+                <button type="button" aria-label={statusLabel} title={statusLabel} className="status-pill">
                   <Circle size={12} className={`fill-current ${statusClasses}`} />
-                  <span className="hidden text-xs font-medium md:inline">{statusLabel}</span>
+                  <span className="hidden md:inline">{statusLabel}</span>
                 </button>
               </header>
-              <div className="h-[calc(100vh-3.5rem)] overflow-y-auto px-4 py-6 md:px-8 md:py-8">
+              <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8">
                 <Routes>
                   <Route element={<RequireAuth />}>
                     <Route path="/" element={<Dashboard />} />
