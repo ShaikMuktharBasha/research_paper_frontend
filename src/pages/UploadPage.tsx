@@ -82,14 +82,14 @@ const UploadPage = () => {
     <div className="page-shell animate-rise">
       <section className="page-hero">
         <p className="page-kicker">Upload flow</p>
-        <h1 className="page-title max-w-[12ch]">Upload once and move into a cleaner reading workspace.</h1>
+        <h1 className="page-title">Upload once and move into a cleaner reading workspace.</h1>
         <p className="page-copy">
           Add a quick instruction, choose a PDF, and let the app open a dedicated result page for the finished analysis.
         </p>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.3fr)_320px]">
-        <div className="panel-card p-6 md:p-8">
+      <section className="page-grid page-grid--dashboard">
+        <div className="page-grid-main panel-card p-6 md:p-8">
           <div className="panel-header">
             <div className="flex flex-wrap items-center gap-3">
               <span className="section-badge">Upload paper</span>
@@ -154,8 +154,8 @@ const UploadPage = () => {
           ) : null}
         </div>
 
-        <div className="panel-stack">
-          <div className="panel-card p-5">
+        <div className="page-grid-rail panel-stack">
+          <div className="panel-card panel-card-compact p-5">
             <div className="panel-header">
               <p className="panel-title">What happens next</p>
               <p className="panel-copy">A short, predictable flow from upload to analysis.</p>
@@ -170,7 +170,7 @@ const UploadPage = () => {
             </div>
           </div>
 
-          <div className="panel-card p-5">
+          <div className="panel-card panel-card-compact p-5">
             <div className="panel-header">
               <p className="panel-title">Best results</p>
               <p className="panel-copy">A few small habits keep the output cleaner.</p>

@@ -119,25 +119,29 @@ function AppLayout() {
           <main className="min-w-0 flex-1 pt-16 md:pt-0">
             <div className="workspace-panel flex min-h-screen flex-col overflow-hidden">
               <header className="shell-topbar">
-                <div>
-                  <p className="shell-kicker">{shellMeta.eyebrow}</p>
-                  <p className="shell-title">{shellMeta.title}</p>
+                <div className="shell-topbar-inner">
+                  <div>
+                    <p className="shell-kicker">{shellMeta.eyebrow}</p>
+                    <p className="shell-title">{shellMeta.title}</p>
+                  </div>
+                  <button type="button" aria-label={statusLabel} title={statusLabel} className="status-pill">
+                    <Circle size={12} className={`fill-current ${statusClasses}`} />
+                    <span className="hidden md:inline">{statusLabel}</span>
+                  </button>
                 </div>
-                <button type="button" aria-label={statusLabel} title={statusLabel} className="status-pill">
-                  <Circle size={12} className={`fill-current ${statusClasses}`} />
-                  <span className="hidden md:inline">{statusLabel}</span>
-                </button>
               </header>
               <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 md:py-8">
-                <Routes>
-                  <Route element={<RequireAuth />}>
-                    <Route path="/" element={<Dashboard />} />
-                    <Route path="/create-paper" element={<CreatePaperPage />} />
-                    <Route path="/upload" element={<UploadPage />} />
-                    <Route path="/workspace" element={<ResultPage />} />
-                  </Route>
-                  <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
+                <div className="mx-auto w-full max-w-[1380px]">
+                  <Routes>
+                    <Route element={<RequireAuth />}>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/create-paper" element={<CreatePaperPage />} />
+                      <Route path="/upload" element={<UploadPage />} />
+                      <Route path="/workspace" element={<ResultPage />} />
+                    </Route>
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Routes>
+                </div>
               </div>
             </div>
           </main>

@@ -250,8 +250,12 @@
   }
 
   .shell-topbar {
-    @apply flex items-center justify-between gap-4 border-b px-4 py-4 md:px-8;
+    @apply border-b px-4 py-4 md:px-8;
     border-color: var(--border);
+  }
+
+  .shell-topbar-inner {
+    @apply mx-auto flex w-full max-w-[1380px] items-center justify-between gap-4;
   }
 
   .shell-kicker {
@@ -277,11 +281,11 @@
   }
 
   .page-shell {
-    @apply mx-auto flex w-full max-w-7xl flex-col gap-6;
+    @apply flex w-full flex-col gap-6;
   }
 
   .page-hero {
-    @apply border-b pb-6 pt-1 md:pb-8;
+    @apply border-b pb-5 pt-1 md:pb-6;
     border-color: var(--border);
   }
 
@@ -296,20 +300,55 @@
 
   .page-title {
     margin-top: 14px;
-    font-size: clamp(2rem, 4vw, 3.9rem);
+    font-size: clamp(1.9rem, 3.2vw, 3.15rem);
     font-weight: 700;
-    line-height: 1.02;
-    letter-spacing: -0.05em;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
     color: var(--text-strong);
-    max-width: 12ch;
+    max-width: 18ch;
+    overflow-wrap: anywhere;
   }
 
   .page-copy {
     margin-top: 16px;
-    max-width: 42rem;
+    max-width: 46rem;
     font-size: 15px;
-    line-height: 1.9;
+    line-height: 1.85;
     color: var(--text-soft);
+  }
+
+  .page-grid {
+    @apply grid items-start gap-6;
+  }
+
+  .page-grid-main {
+    @apply min-w-0;
+  }
+
+  .page-grid-rail {
+    @apply min-w-0;
+  }
+
+  .page-grid--dashboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-grid--workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-grid--builder {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .page-title-fluid {
+    max-width: 24ch;
+  }
+
+  .page-title-document {
+    max-width: none;
+    font-size: clamp(1.7rem, 2.6vw, 2.7rem);
+    line-height: 1.08;
   }
 
   .panel-card {
@@ -322,6 +361,10 @@
 
   .panel-stack {
     @apply flex flex-col gap-4;
+  }
+
+  .panel-card-compact {
+    border-radius: 24px;
   }
 
   .panel-header {
@@ -598,6 +641,20 @@
   .sidebar-scroll {
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
+  }
+
+  @media (min-width: 1280px) {
+    .page-grid--dashboard {
+      grid-template-columns: minmax(0, 1.3fr) minmax(290px, 340px);
+    }
+
+    .page-grid--workspace {
+      grid-template-columns: minmax(0, 1.18fr) minmax(300px, 360px);
+    }
+
+    .page-grid--builder {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.94fr);
+    }
   }
 
   .silk-canvas {

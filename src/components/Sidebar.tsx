@@ -132,18 +132,18 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="fixed left-0 right-0 top-0 z-40 border-b border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-3 md:hidden">
+      <div className="fixed left-0 right-0 top-0 z-40 border-b border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-3 text-main md:hidden">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border)] text-[var(--text-strong)]">
               <BrainCircuit size={17} />
             </div>
-            <p className="text-sm font-semibold text-white">Research Paper Workspace</p>
+            <p className="text-sm font-semibold text-[var(--text-strong)]">Research Paper Workspace</p>
           </div>
           <button
             type="button"
             onClick={() => setIsMenuOpen((current) => !current)}
-            className="rounded-xl p-2 text-white hover:bg-white/5"
+            className="rounded-xl p-2 text-[var(--text-strong)] transition-colors hover:bg-[var(--surface-subtle)]"
           >
             {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>

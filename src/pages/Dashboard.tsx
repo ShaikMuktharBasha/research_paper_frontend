@@ -81,14 +81,14 @@ const Dashboard = () => {
     <div className="page-shell animate-rise">
       <section className="page-hero">
         <p className="page-kicker">Workspace home</p>
-        <h1 className="page-title max-w-[11ch]">Start with one paper and keep the rest quiet.</h1>
+        <h1 className="page-title">Start with one paper and keep the rest quiet.</h1>
         <p className="page-copy">
           Upload a PDF, add a short instruction if you want a certain style, and move directly into a focused paper workspace.
         </p>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.45fr)_320px]">
-        <div className="panel-card p-6 md:p-8">
+      <section className="page-grid page-grid--dashboard">
+        <div className="page-grid-main panel-card p-6 md:p-8">
           <input
             ref={fileInputRef}
             type="file"
@@ -167,8 +167,8 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="panel-stack">
-          <div className="panel-card p-5">
+        <div className="page-grid-rail panel-stack">
+          <div className="panel-card panel-card-compact p-5">
             <div className="panel-header">
               <p className="panel-title">How the workspace flows</p>
               <p className="panel-copy">A minimal handoff from upload to reading, questions, and recap.</p>
@@ -183,7 +183,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="panel-card p-5">
+          <div className="panel-card panel-card-compact p-5">
             <div className="panel-header">
               <p className="panel-title">Good starting prompts</p>
               <p className="panel-copy">Keep the instruction short and outcome-focused.</p>

@@ -239,7 +239,7 @@ const ResultPage = () => {
       <div className="page-shell animate-rise">
         <section className="page-hero">
           <p className="page-kicker">Paper workspace</p>
-          <h1 className="page-title max-w-[12ch]">Opening your saved analysis.</h1>
+          <h1 className="page-title">Opening your saved analysis.</h1>
         </section>
         <section className="panel-card p-6">
           <p className="panel-copy">Loading summary, explanation, and study tools.</p>
@@ -265,7 +265,7 @@ const ResultPage = () => {
       <div className="page-shell animate-rise">
         <section className="page-hero">
           <p className="page-kicker">Paper workspace</p>
-          <h1 className="page-title max-w-[12ch]">This paper could not be opened right now.</h1>
+          <h1 className="page-title">This paper could not be opened right now.</h1>
         </section>
         <section className="panel-card p-6">
           <div className="flex items-start gap-3 rounded-[18px] border border-red-400/20 bg-red-400/10 px-4 py-4 text-sm text-red-700 dark:text-red-300">
@@ -287,7 +287,7 @@ const ResultPage = () => {
         <p className="page-kicker">Paper workspace</p>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
-            <h1 className="page-title max-w-[14ch]">{result.filename}</h1>
+            <h1 className="page-title page-title-document">{result.filename}</h1>
             <p className="page-copy">
               Review the summary, switch between explanation modes, ask focused questions, and generate a compact recap quiz without leaving the same workspace.
             </p>
@@ -304,8 +304,8 @@ const ResultPage = () => {
         </div>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_340px]">
-        <div className="panel-card flex flex-col p-6 md:p-8">
+      <section className="page-grid page-grid--workspace">
+        <div className="page-grid-main panel-card flex flex-col p-6 md:p-8">
           <div className="flex flex-col gap-4 border-b border-[var(--border)] pb-5 md:flex-row md:items-start md:justify-between">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
@@ -359,8 +359,8 @@ const ResultPage = () => {
           </div>
         </div>
 
-        <div className="panel-stack">
-          <div className="panel-card p-5">
+        <div className="page-grid-rail panel-stack">
+          <div className="panel-card panel-card-compact p-5">
             <div className="panel-header">
               <p className="panel-title">Document snapshot</p>
               <p className="panel-copy">A quick read on the size and pace of this paper.</p>
@@ -390,7 +390,7 @@ const ResultPage = () => {
             </div>
           </div>
 
-          <div ref={chatSectionRef} className="panel-card p-5">
+          <div ref={chatSectionRef} className="panel-card panel-card-compact p-5">
             <div className="flex items-center gap-2">
               <MessageSquare size={18} className="text-[var(--accent-strong)]" />
               <h3 className="panel-title">Ask the paper</h3>
@@ -444,7 +444,7 @@ const ResultPage = () => {
             )}
           </div>
 
-          <div ref={quizSectionRef} className="panel-card p-5">
+          <div ref={quizSectionRef} className="panel-card panel-card-compact p-5">
             <div className="flex items-center gap-2">
               <FileQuestion size={18} className="text-[var(--accent-strong)]" />
               <h3 className="panel-title">Quick quiz</h3>

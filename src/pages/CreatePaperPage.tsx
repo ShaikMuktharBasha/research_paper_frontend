@@ -497,14 +497,14 @@ const CreatePaperPage = () => {
     <div className="page-shell animate-rise">
       <section className="page-hero">
         <p className="page-kicker">Paper builder</p>
-        <h1 className="page-title max-w-[13ch]">Assemble your sections into a cleaner paper export.</h1>
+        <h1 className="page-title page-title-fluid">Assemble your sections into a cleaner paper export.</h1>
         <p className="page-copy">
           Fill in the parts you already know, choose a format, and generate a downloadable research-paper file without leaving the app.
         </p>
       </section>
 
-      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <div className="panel-card p-6 md:p-8">
+      <section className="page-grid page-grid--builder">
+        <div className="page-grid-main panel-card p-6 md:p-8">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
               <PencilLine size={20} />
@@ -585,8 +585,8 @@ const CreatePaperPage = () => {
           </button>
         </div>
 
-        <div className="panel-stack">
-          <div className="panel-card p-5">
+        <div className="page-grid-rail panel-stack">
+          <div className="panel-card panel-card-compact p-5">
             <div className="panel-header">
               <p className="panel-title">Builder notes</p>
               <p className="panel-copy">A few details worth keeping in mind before exporting.</p>
