@@ -165,51 +165,18 @@ const Sidebar = () => {
         }`}
       >
         <div className="sidebar-surface flex h-full flex-col overflow-hidden">
-          <div className="shrink-0 border-b border-white/8 px-3 pb-3 pt-4">
-            <div className="flex items-center gap-3 px-1">
-              <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white">
-                  <BrainCircuit size={16} />
-                </div>
-              </div>
-              <p className="text-sm font-semibold text-white">Research Paper Workspace</p>
-            </div>
-
-            {user && (
-              <div className="mt-3 rounded-xl border border-white/8 bg-white/[0.03] px-3 py-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/8 text-white">
-                    <UserCircle2 size={18} />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-white">{user.name}</p>
-                    <p className="truncate text-xs text-white/50">{user.email}</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div className="mt-2 flex flex-col gap-1">
-              <button
-                type="button"
-                onClick={toggleDarkMode}
-                className="chat-sidebar-footer-item"
-              >
-                {darkMode ? <SunMedium size={17} /> : <Moon size={17} />}
-                <span>{darkMode ? 'Light mode' : 'Dark mode'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={logout}
-                className="chat-sidebar-footer-item"
-              >
-                <LogOut size={17} />
-                <span>Log out</span>
-              </button>
-            </div>
-          </div>
-
           <div className="sidebar-scroll min-h-0 flex-1 overflow-y-auto pb-3">
+            <div className="border-b border-white/8 px-3 pb-3 pt-4">
+              <div className="flex items-center gap-3 px-1">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 text-white">
+                    <BrainCircuit size={16} />
+                  </div>
+                </div>
+                <p className="text-sm font-semibold text-white">Research Paper Workspace</p>
+              </div>
+            </div>
+
             <div className="space-y-1 px-2">
               {primaryItems.map(({ to, label, icon: Icon, primary }) => (
                 <NavLink
@@ -359,6 +326,41 @@ const Sidebar = () => {
                   {dashboardStats.pages_indexed} pages indexed across {dashboardStats.papers_decoded} papers
                 </div>
               )}
+            </div>
+          </div>
+
+          <div className="shrink-0 border-t border-white/8 px-3 py-3">
+            {user && (
+              <div className="mb-2 rounded-xl border border-white/8 bg-white/[0.03] px-3 py-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/8 text-white">
+                    <UserCircle2 size={18} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-white">{user.name}</p>
+                    <p className="truncate text-xs text-white/50">{user.email}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="flex flex-col gap-1">
+              <button
+                type="button"
+                onClick={toggleDarkMode}
+                className="chat-sidebar-footer-item"
+              >
+                {darkMode ? <SunMedium size={17} /> : <Moon size={17} />}
+                <span>{darkMode ? 'Light mode' : 'Dark mode'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={logout}
+                className="chat-sidebar-footer-item"
+              >
+                <LogOut size={17} />
+                <span>Log out</span>
+              </button>
             </div>
           </div>
         </div>
