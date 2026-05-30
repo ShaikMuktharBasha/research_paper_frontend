@@ -1,14 +1,7 @@
 import React, { useState } from 'react';
-import { BrainCircuit, Loader2, LogIn, Sparkles } from 'lucide-react';
+import { ArrowRight, BrainCircuit, Loader2, LogIn } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import AuthScaffold from '../components/AuthScaffold';
-
-const loginNotes = [
-  'Open saved uploads, summaries, and quizzes from one place.',
-  'Keep your research-paper builder and workspace behind a simple account.',
-  'Return to the same desk without reconfiguring your flow every time.',
-];
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -37,102 +30,131 @@ const LoginPage = () => {
   };
 
   return (
-    <AuthScaffold
-      kicker="Secure access"
-      title="Log in and return to your research desk."
-      description="Keep uploads, paper workspaces, and export tools in one minimal place without extra setup each time."
-      notes={loginNotes}
-    >
-      <section className="panel-card rounded-[32px] p-6 md:p-8">
-        <div className="rounded-[26px] border border-[var(--border)] bg-[var(--surface-subtle)] p-5">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium text-[var(--accent-strong)]">
-            <Sparkles size={14} />
-            Member access
-          </div>
+    <div className="min-h-screen bg-[#f4efe8] text-[var(--text-strong)]">
+      <div className="grid min-h-screen lg:grid-cols-[1.08fr_0.92fr]">
+        <section className="relative min-h-[300px] overflow-hidden bg-[#d8e8f5] lg:min-h-screen">
+          <img
+            src="/login-side-photo.svg"
+            alt="Login visual"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#0f17201f] via-transparent to-[#ffffff10]" />
 
-          <div className="mt-5 flex items-start gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
-              <BrainCircuit size={22} />
+          <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8 lg:p-10">
+            <div className="flex items-center justify-between gap-4">
+              <div className="inline-flex items-center gap-3 rounded-full border border-white/50 bg-white/70 px-4 py-2 text-sm font-medium text-[#17212b] backdrop-blur">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#1f2937]">
+                  <BrainCircuit size={18} />
+                </span>
+                Research Simplifier
+              </div>
+
+              <Link
+                to="/signup"
+                className="hidden rounded-full border border-white/60 bg-white/18 px-4 py-2 text-sm font-medium text-white backdrop-blur transition-colors hover:bg-white/28 sm:inline-flex"
+              >
+                Join us
+              </Link>
             </div>
-            <div className="min-w-0">
-              <h2 className="text-[1.65rem] font-semibold tracking-[-0.03em] text-[var(--text-strong)]">Welcome back</h2>
-              <p className="mt-2 max-w-md text-sm leading-7 text-soft">
-                Sign in to continue from the same research desk, with your uploads, summaries, and paper workspaces already in place.
+
+            <div className="max-w-xl rounded-[32px] border border-white/30 bg-white/16 p-6 text-white backdrop-blur-md sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">Member workspace</p>
+              <h1 className="mt-4 text-3xl font-semibold tracking-[-0.05em] sm:text-5xl">
+                Your image will live here on the left.
+              </h1>
+              <p className="mt-4 max-w-lg text-sm leading-7 text-white/84 sm:text-base">
+                Replace <span className="font-semibold text-white">/public/login-side-photo.svg</span> with your own photo and this layout will keep the same split design automatically.
               </p>
             </div>
           </div>
+        </section>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-[20px] border border-[var(--border)] bg-[var(--surface)] px-4 py-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-soft">Workspace</p>
-              <p className="mt-2 text-base font-semibold text-[var(--text-strong)]">Saved papers and results</p>
+        <section className="flex min-h-screen items-center justify-center bg-[#fcfaf7] px-5 py-10 sm:px-8 lg:px-12">
+          <div className="w-full max-w-[430px]">
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--text-soft)]">
+                Secure login
+              </p>
+              <Link
+                to="/signup"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--text-strong)] transition-colors hover:text-[var(--accent-strong)]"
+              >
+                Create account
+                <ArrowRight size={16} />
+              </Link>
             </div>
-            <div className="rounded-[20px] border border-[var(--border)] bg-[var(--surface)] px-4 py-4">
-              <p className="text-xs uppercase tracking-[0.18em] text-soft">Access</p>
-              <p className="mt-2 text-base font-semibold text-[var(--text-strong)]">Simple, secure sign in</p>
+
+            <div className="mt-10">
+              <h2 className="text-[2.45rem] font-semibold tracking-[-0.05em] text-[var(--text-strong)]">
+                Log in
+              </h2>
+              <p className="mt-3 max-w-sm text-sm leading-7 text-[var(--text-soft)]">
+                Open your saved uploads, summaries, quizzes, and research-paper drafts from one calm workspace.
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="mt-10 space-y-5">
+              <div>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--text-soft)]">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="you@example.com"
+                  className="input-surface mt-3 rounded-[18px] bg-white"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--text-soft)]">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="Enter your password"
+                  className="input-surface mt-3 rounded-[18px] bg-white"
+                  required
+                />
+              </div>
+
+              {error ? (
+                <div className="rounded-[18px] border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+                  {error}
+                </div>
+              ) : null}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[18px] bg-[#11181f] px-4 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#1b252f] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <LogIn size={16} />}
+                Log in
+              </button>
+            </form>
+
+            <div className="mt-8 rounded-[24px] border border-[var(--border)] bg-white px-5 py-5">
+              <p className="text-sm font-semibold text-[var(--text-strong)]">Need an account?</p>
+              <p className="mt-2 text-sm leading-7 text-[var(--text-soft)]">
+                Sign up once and keep your research flow available every time you return.
+              </p>
+              <Link
+                to="/signup"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[var(--text-strong)] transition-colors hover:text-[var(--accent-strong)]"
+              >
+                Go to signup
+                <ArrowRight size={16} />
+              </Link>
             </div>
           </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-          <div>
-            <label className="text-sm font-medium text-main">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="you@example.com"
-              className="input-surface mt-2"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-main">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              placeholder="Enter your password"
-              className="input-surface mt-2"
-              required
-            />
-          </div>
-
-          {error ? (
-            <div className="rounded-[18px] border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
-              {error}
-            </div>
-          ) : null}
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="primary-button mt-2 w-full rounded-[18px] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <LogIn size={16} />}
-            Log in
-          </button>
-
-          <div className="rounded-[20px] border border-[var(--border)] bg-[var(--surface)] px-4 py-4">
-            <p className="text-sm font-medium text-[var(--text-strong)]">New to the workspace?</p>
-            <p className="mt-1 text-sm leading-7 text-soft">
-              Create an account once and keep your uploads, summaries, and result pages available for your next session.
-            </p>
-          </div>
-        </form>
-
-        <div className="mt-6 flex flex-col gap-3 border-t border-[var(--border)] pt-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-soft">
-            Need an account?{' '}
-            <Link to="/signup" className="font-medium text-[var(--text-strong)] underline-offset-4 hover:underline">
-              Create one here
-            </Link>
-          </p>
-          <p className="text-xs uppercase tracking-[0.16em] text-soft">Research Simplifier</p>
-        </div>
-      </section>
-    </AuthScaffold>
+        </section>
+      </div>
+    </div>
   );
 };
 
