@@ -32,18 +32,18 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen bg-[#f4efe8] text-[var(--text-strong)]">
       <div className="grid min-h-screen lg:grid-cols-[1.08fr_0.92fr]">
-        <section className="relative min-h-[300px] overflow-hidden bg-[#d8e8f5] lg:min-h-screen">
+        <section className="relative min-h-[300px] overflow-hidden bg-gradient-to-br from-[#d97d36] via-[#ebb184] to-[#f4d4b3] lg:min-h-screen">
           <img
-            src="/login-side-photo.svg"
-            alt="Login visual"
-            className="absolute inset-0 h-full w-full object-cover"
+            src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?q=80&w=2000&auto=format&fit=crop"
+            alt="Desert dunes"
+            className="absolute inset-0 h-full w-full object-cover opacity-80 mix-blend-overlay"
           />
-          <div className="absolute inset-0 bg-gradient-to-tr from-[#0f17201f] via-transparent to-[#ffffff10]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-orange-900/30 via-transparent to-orange-950/40" />
 
           <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8 lg:p-10">
             <div className="flex items-center justify-between gap-4">
-              <div className="inline-flex items-center gap-3 rounded-full border border-white/50 bg-white/70 px-4 py-2 text-sm font-medium text-[#17212b] backdrop-blur">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#1f2937]">
+              <div className="inline-flex items-center gap-3 rounded-full border border-white/50 bg-white/70 px-4 py-2 text-sm font-medium text-[#17212b] backdrop-blur shadow-sm">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 text-white">
                   <BrainCircuit size={18} />
                 </span>
                 Research Simplifier
@@ -51,20 +51,35 @@ const LoginPage = () => {
 
               <Link
                 to="/signup"
-                className="hidden rounded-full border border-white/60 bg-white/18 px-4 py-2 text-sm font-medium text-white backdrop-blur transition-colors hover:bg-white/28 sm:inline-flex"
+                className="hidden rounded-full border border-white/60 bg-white/20 px-4 py-2 text-sm font-medium text-white backdrop-blur transition-colors hover:bg-white/30 sm:inline-flex"
               >
                 Join us
               </Link>
             </div>
 
-            <div className="max-w-xl rounded-[32px] border border-white/30 bg-white/16 p-6 text-white backdrop-blur-md sm:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/72">Member workspace</p>
-              <h1 className="mt-4 text-3xl font-semibold tracking-[-0.05em] sm:text-5xl">
-                Your image will live here on the left.
+            <div className="max-w-xl rounded-[32px] border border-white/30 bg-orange-950/20 p-6 text-white backdrop-blur-md sm:p-8 shadow-xl">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-100">Unlock your potential</p>
+              <h1 className="mt-4 text-3xl font-semibold tracking-[-0.05em] sm:text-5xl text-white">
+                Simplify Complex Research
               </h1>
-              <p className="mt-4 max-w-lg text-sm leading-7 text-white/84 sm:text-base">
-                Replace <span className="font-semibold text-white">/public/login-side-photo.svg</span> with your own photo and this layout will keep the same split design automatically.
+              <p className="mt-4 max-w-lg text-sm leading-7 text-orange-50 sm:text-base">
+                Discover a faster way to process, understand, and retain academic and professional papers from a single dashboard.
               </p>
+              
+              <ul className="mt-8 space-y-4">
+                <li className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">💡</div>
+                  <span className="text-sm font-medium text-white">Instant AI-Powered Summaries</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">💬</div>
+                  <span className="text-sm font-medium text-white">Interactive PDF Q&A</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">🎯</div>
+                  <span className="text-sm font-medium text-white">Automated Knowledge Quizzes</span>
+                </li>
+              </ul>
             </div>
           </div>
         </section>
@@ -131,7 +146,7 @@ const LoginPage = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[18px] bg-[#11181f] px-4 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#1b252f] disabled:cursor-not-allowed disabled:opacity-60"
+                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[18px] bg-orange-600 px-4 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <LogIn size={16} />}
                 Log in

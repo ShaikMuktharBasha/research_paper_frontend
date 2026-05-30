@@ -1,32 +1,7 @@
 import React, { useState } from 'react';
-import { BrainCircuit, FileText, LayoutPanelTop, Loader2, ShieldCheck, Sparkles, UserPlus } from 'lucide-react';
+import { BrainCircuit, Loader2, ArrowRight, UserPlus } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import AuthScaffold from '../components/AuthScaffold';
-
-const signupNotes = [
-  'Keep uploads, summaries, quizzes, and created papers under one account.',
-  'Return to recent documents from the sidebar without rebuilding context.',
-  'Use the same workspace flow across upload, analysis, and export.',
-];
-
-const signupHighlights = [
-  {
-    title: 'Saved paper workspaces',
-    description: 'Come back to uploaded papers, answers, and quizzes without starting over.',
-    icon: FileText,
-  },
-  {
-    title: 'One clean dashboard',
-    description: 'Keep upload, reading, questioning, and export tools in a single structured place.',
-    icon: LayoutPanelTop,
-  },
-  {
-    title: 'Simple secure access',
-    description: 'Create an account once and keep your workspace available the next time you sign in.',
-    icon: ShieldCheck,
-  },
-];
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -60,136 +35,166 @@ const SignupPage = () => {
   };
 
   return (
-    <AuthScaffold
-      kicker="Create account"
-      title="Create your workspace and keep every paper flow in one place."
-      description="Sign up once to save uploads, reopen result pages, and keep your research workflow organized instead of restarting from scratch."
-      notes={signupNotes}
-    >
-      <section className="panel-card rounded-[32px] p-6 md:p-8">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
-              <BrainCircuit size={22} />
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold text-[var(--text-strong)]">Create your account</h2>
-              <p className="mt-1 text-sm text-soft">A lighter setup for a more organized research desk.</p>
-            </div>
-          </div>
+    <div className="min-h-screen bg-[#f4efe8] text-[var(--text-strong)]">
+      <div className="grid min-h-screen lg:grid-cols-[1.08fr_0.92fr]">
+        <section className="relative min-h-[300px] overflow-hidden bg-gradient-to-br from-[#d97d36] via-[#ebb184] to-[#f4d4b3] lg:min-h-screen">
+          <img
+            src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?q=80&w=2000&auto=format&fit=crop"
+            alt="Desert dunes"
+            className="absolute inset-0 h-full w-full object-cover opacity-80 mix-blend-overlay"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-orange-900/30 via-transparent to-orange-950/40" />
 
-          <div className="hidden rounded-full border border-[var(--border)] bg-[var(--surface-subtle)] px-3 py-1.5 text-xs font-medium text-[var(--accent-strong)] md:inline-flex">
-            <Sparkles size={14} className="mr-2" />
-            Free workspace
-          </div>
-        </div>
+          <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8 lg:p-10">
+            <div className="flex items-center justify-between gap-4">
+              <div className="inline-flex items-center gap-3 rounded-full border border-white/50 bg-white/70 px-4 py-2 text-sm font-medium text-[#17212b] backdrop-blur shadow-sm">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 text-white">
+                  <BrainCircuit size={18} />
+                </span>
+                Research Simplifier
+              </div>
 
-        <div className="mt-6 rounded-[24px] border border-[var(--border)] bg-[var(--surface-subtle)] p-4">
-          <div className="flex flex-wrap gap-3">
-            <div className="min-w-[140px] rounded-[18px] bg-[var(--surface)] px-4 py-3">
-              <p className="text-xs uppercase tracking-[0.18em] text-soft">After signup</p>
-              <p className="mt-2 text-lg font-semibold text-[var(--text-strong)]">Upload, ask, export</p>
-            </div>
-            <div className="min-w-[140px] rounded-[18px] bg-[var(--surface)] px-4 py-3">
-              <p className="text-xs uppercase tracking-[0.18em] text-soft">Account setup</p>
-              <p className="mt-2 text-lg font-semibold text-[var(--text-strong)]">Takes under a minute</p>
-            </div>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-          <div>
-            <label className="text-sm font-medium text-main">Full name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              placeholder="Your name"
-              className="input-surface mt-2"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-main">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="you@example.com"
-              className="input-surface mt-2"
-              required
-            />
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <div>
-              <label className="text-sm font-medium text-main">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                placeholder="At least 6 characters"
-                className="input-surface mt-2"
-                required
-              />
+              <Link
+                to="/login"
+                className="hidden rounded-full border border-white/60 bg-white/20 px-4 py-2 text-sm font-medium text-white backdrop-blur transition-colors hover:bg-white/30 sm:inline-flex"
+              >
+                Log in
+              </Link>
             </div>
 
-            <div>
-              <label className="text-sm font-medium text-main">Confirm password</label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                placeholder="Re-enter your password"
-                className="input-surface mt-2"
-                required
-              />
+            <div className="max-w-xl rounded-[32px] border border-white/30 bg-orange-950/20 p-6 text-white backdrop-blur-md sm:p-8 shadow-xl">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-100">Unlock your potential</p>
+              <h1 className="mt-4 text-3xl font-semibold tracking-[-0.05em] sm:text-5xl text-white">
+                Simplify Complex Research
+              </h1>
+              <p className="mt-4 max-w-lg text-sm leading-7 text-orange-50 sm:text-base">
+                Discover a faster way to process, understand, and retain academic and professional papers from a single dashboard.
+              </p>
+              
+              <ul className="mt-8 space-y-4">
+                <li className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">💡</div>
+                  <span className="text-sm font-medium text-white">Instant AI-Powered Summaries</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">💬</div>
+                  <span className="text-sm font-medium text-white">Interactive PDF Q&A</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">🎯</div>
+                  <span className="text-sm font-medium text-white">Automated Knowledge Quizzes</span>
+                </li>
+              </ul>
             </div>
           </div>
+        </section>
 
-          <div className="grid gap-3">
-            {signupHighlights.map(({ title, description, icon: Icon }) => (
-              <div key={title} className="flex items-start gap-3 rounded-[20px] border border-[var(--border)] bg-[var(--surface)] px-4 py-4">
-                <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--brand-soft)] text-[var(--accent-strong)]">
-                  <Icon size={18} />
-                </div>
+        <section className="flex min-h-screen items-center justify-center bg-[#fcfaf7] px-5 py-10 sm:px-8 lg:px-12">
+          <div className="w-full max-w-[430px]">
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--text-soft)]">
+                Create account
+              </p>
+              <Link
+                to="/login"
+                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--text-strong)] transition-colors hover:text-orange-600"
+              >
+                Go to login
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            <div className="mt-10">
+              <h2 className="text-[2.45rem] font-semibold tracking-[-0.05em] text-[var(--text-strong)]">
+                Sign up
+              </h2>
+              <p className="mt-3 max-w-sm text-sm leading-7 text-[var(--text-soft)]">
+                Create your workspace and keep every paper flow in one place without starting from scratch.
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="mt-10 space-y-5">
+              <div>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--text-soft)]">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                  placeholder="Your name"
+                  className="input-surface mt-3 rounded-[18px] bg-white w-full"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--text-soft)]">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="you@example.com"
+                  className="input-surface mt-3 rounded-[18px] bg-white w-full"
+                  required
+                />
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <p className="text-sm font-semibold text-[var(--text-strong)]">{title}</p>
-                  <p className="mt-1 text-sm leading-7 text-soft">{description}</p>
+                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--text-soft)]">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    placeholder="At least 6 chars"
+                    className="input-surface mt-3 rounded-[18px] bg-white w-full"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--text-soft)]">
+                    Confirm password
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    placeholder="Confirm password"
+                    className="input-surface mt-3 rounded-[18px] bg-white w-full"
+                    required
+                  />
                 </div>
               </div>
-            ))}
+
+              {error ? (
+                <div className="rounded-[18px] border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
+                  {error}
+                </div>
+              ) : null}
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[18px] bg-orange-600 px-4 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <UserPlus size={16} />}
+                Create account
+              </button>
+            </form>
+            
+            <p className="mt-8 text-center text-[13px] leading-6 text-[var(--text-soft)]">
+              By continuing, you're creating a secure workspace for saved <br className="hidden sm:block" />uploads, result pages, and paper exports.
+            </p>
           </div>
-
-          {error ? (
-            <div className="rounded-[18px] border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-700 dark:text-red-300">
-              {error}
-            </div>
-          ) : null}
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="primary-button mt-2 w-full rounded-[18px] disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <UserPlus size={16} />}
-            Create account
-          </button>
-
-          <p className="rounded-[18px] border border-[var(--border)] bg-[var(--surface)] px-4 py-3 text-sm text-soft">
-            By continuing, you&apos;re creating a workspace for saved uploads, result pages, and paper exports.
-          </p>
-        </form>
-
-        <p className="mt-5 text-sm text-soft">
-          Already have an account?{' '}
-          <Link to="/login" className="font-medium text-[var(--text-strong)] underline-offset-4 hover:underline">
-            Log in instead
-          </Link>
-        </p>
-      </section>
-    </AuthScaffold>
+        </section>
+      </div>
+    </div>
   );
 };
 
