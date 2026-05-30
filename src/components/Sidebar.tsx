@@ -62,7 +62,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     const storedTheme = window.localStorage.getItem('ai-simplifier-theme');
-    const shouldUseDark = storedTheme ? storedTheme === 'dark' : true;
+    const shouldUseDark = storedTheme ? storedTheme === 'dark' : false;
 
     setDarkMode(shouldUseDark);
     document.documentElement.classList.toggle('dark', shouldUseDark);
@@ -205,7 +205,7 @@ const Sidebar = () => {
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="sidebar-section-label">Latest paper</p>
-                    <p className="mt-2 text-sm font-medium text-white">
+                    <p className="mt-2 text-sm font-medium text-[var(--text-strong)]">
                       {latestUpload ? truncateLabel(latestUpload.filename, 30) : 'No saved paper yet'}
                     </p>
                   </div>
@@ -226,7 +226,7 @@ const Sidebar = () => {
                 </div>
 
                 {dashboardStats && (
-                  <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-white/65">
+                  <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-soft">
                     <div className="sidebar-stat-tile">
                       <p className="sidebar-stat-label">Papers</p>
                       <p className="sidebar-stat-value">{dashboardStats.papers_decoded}</p>
@@ -245,7 +245,7 @@ const Sidebar = () => {
             <div className="mt-5 px-4">
               <div className="flex items-center justify-between">
                 <p className="sidebar-section-label">Toolkit</p>
-                <Sparkles size={14} className="text-white/45" />
+                <Sparkles size={14} className="text-soft" />
               </div>
             </div>
 
@@ -271,13 +271,13 @@ const Sidebar = () => {
 
             <div className="mt-2 px-2">
               <label className="relative block">
-                <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-white/35" />
+                <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-soft" />
                 <input
                   type="text"
                   value={recentSearch}
                   onChange={(event) => setRecentSearch(event.target.value)}
                   placeholder="Search uploads"
-                  className="sidebar-search-input w-full py-2 pl-9 pr-3 text-sm text-white outline-none transition-colors placeholder:text-white/30"
+                  className="sidebar-search-input w-full py-2 pl-9 pr-3 text-sm outline-none transition-colors placeholder:text-[var(--text-soft)]"
                 />
               </label>
             </div>
@@ -287,8 +287,8 @@ const Sidebar = () => {
                 <div className="space-y-2">
                   {[1, 2, 3, 4].map((item) => (
                     <div key={item} className="sidebar-skeleton-card">
-                      <div className="h-3 w-32 rounded-full bg-white/10" />
-                      <div className="mt-2 h-2 w-20 rounded-full bg-white/10" />
+                      <div className="h-3 w-32 rounded-full bg-[var(--surface-subtle)]" />
+                      <div className="mt-2 h-2 w-20 rounded-full bg-[var(--surface-subtle)]" />
                     </div>
                   ))}
                 </div>
@@ -302,14 +302,14 @@ const Sidebar = () => {
                       className="chat-recent-item"
                     >
                       <div className="flex items-start gap-3">
-                        <FileText size={15} className="mt-0.5 shrink-0 text-white/55" />
+                        <FileText size={15} className="mt-0.5 shrink-0 text-soft" />
                         <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm text-white">{truncateLabel(paper.filename)}</p>
-                          <p className="mt-1 text-xs text-white/45">
-                            {formatUploadDate(paper.uploaded_at)} - {paper.stats.total_pages} pages
+                          <p className="truncate text-sm text-[var(--text-strong)]">{truncateLabel(paper.filename)}</p>
+                          <p className="mt-1 text-xs text-soft">
+                            {formatUploadDate(paper.uploaded_at)} · {paper.stats.total_pages} pages
                           </p>
                           {paper.summary_preview && (
-                            <p className="mt-1 truncate text-xs text-white/30">{paper.summary_preview}</p>
+                            <p className="mt-1 truncate text-xs text-soft">{paper.summary_preview}</p>
                           )}
                         </div>
                       </div>
@@ -317,17 +317,17 @@ const Sidebar = () => {
                   ))}
                 </div>
               ) : recentUploads.length ? (
-                <div className="rounded-xl px-3 py-4 text-sm text-white/55">
+                <div className="rounded-xl px-3 py-4 text-sm text-soft">
                   No uploads match "{recentSearch.trim()}".
                 </div>
               ) : (
-                <div className="rounded-xl px-3 py-4 text-sm text-white/55">
+                <div className="rounded-xl px-3 py-4 text-sm text-soft">
                   Upload your first paper and it will appear here.
                 </div>
               )}
 
               {dashboardStats && (
-                <div className="mt-3 rounded-xl px-3 py-2 text-xs text-white/45">
+                <div className="mt-3 rounded-xl px-3 py-2 text-xs text-soft">
                   {dashboardStats.pages_indexed} pages indexed across {dashboardStats.papers_decoded} papers
                 </div>
               )}
@@ -343,8 +343,8 @@ const Sidebar = () => {
                   </div>
                   <div className="min-w-0">
                     <p className="sidebar-eyebrow">Signed in</p>
-                    <p className="truncate text-sm font-medium text-white">{user.name}</p>
-                    <p className="truncate text-xs text-white/50">{user.email}</p>
+                    <p className="truncate text-sm font-medium text-[var(--text-strong)]">{user.name}</p>
+                    <p className="truncate text-xs text-soft">{user.email}</p>
                   </div>
                 </div>
               </div>

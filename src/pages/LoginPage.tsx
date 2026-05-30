@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrainCircuit, Loader2, LogIn } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import AuthScaffold from '../components/AuthScaffold';
 
 const loginNotes = [
   'Open saved uploads, summaries, and quizzes from one place.',
@@ -36,26 +37,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4 py-10">
-      <div className="grid w-full max-w-5xl gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
-        <section className="auth-hero-card flex flex-col justify-between">
-          <div>
-            <p className="page-kicker">Secure access</p>
-            <h1 className="page-title mt-0 max-w-[12ch]">Log in and return to your research desk.</h1>
-            <p className="page-copy max-w-xl">
-              Keep uploads, paper workspaces, and export tools in one minimal place without extra setup each time.
-            </p>
-          </div>
-
-          <div className="mt-8 space-y-3">
-            {loginNotes.map((note) => (
-              <div key={note} className="auth-point">
-                {note}
-              </div>
-            ))}
-          </div>
-        </section>
-
+    <AuthScaffold
+      kicker="Secure access"
+      title="Log in and return to your research desk."
+      description="Keep uploads, paper workspaces, and export tools in one minimal place without extra setup each time."
+      notes={loginNotes}
+    >
         <section className="panel-card rounded-[32px] p-6 md:p-8">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
@@ -115,8 +102,7 @@ const LoginPage = () => {
             </Link>
           </p>
         </section>
-      </div>
-    </div>
+    </AuthScaffold>
   );
 };
 

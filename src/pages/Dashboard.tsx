@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ArrowRight, Globe, ImagePlus, Loader2, PencilLine, Plus, SendHorizontal, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../config/api';
+import { MainColumn, PageGrid, PageScaffold, PanelCard, PanelStack, RailColumn } from '../components/PageScaffold';
 
 const actionChips = [
   { label: 'Summarize the paper', icon: ImagePlus },
@@ -78,17 +79,14 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="page-shell animate-rise">
-      <section className="page-hero">
-        <p className="page-kicker">Workspace home</p>
-        <h1 className="page-title">Start with one paper and keep the rest quiet.</h1>
-        <p className="page-copy">
-          Upload a PDF, add a short instruction if you want a certain style, and move directly into a focused paper workspace.
-        </p>
-      </section>
-
-      <section className="page-grid page-grid--dashboard">
-        <div className="page-grid-main panel-card p-6 md:p-8">
+    <PageScaffold
+      kicker="Workspace home"
+      title="Start with one paper and keep the rest quiet."
+      description="Upload a PDF, add a short instruction if you want a certain style, and move directly into a focused paper workspace."
+    >
+      <PageGrid variant="dashboard">
+        <MainColumn>
+          <PanelCard className="p-6 md:p-8">
           <input
             ref={fileInputRef}
             type="file"
@@ -121,13 +119,13 @@ const Dashboard = () => {
                 type="button"
                 aria-label="Upload file"
                 onClick={handleFilePick}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white/80 transition-colors hover:bg-white/5 hover:text-white"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--surface-subtle)] text-[var(--text-main)] transition-colors hover:bg-[var(--brand-soft)] hover:text-[var(--text-strong)]"
               >
                 <Plus size={22} />
               </button>
 
               <div className="flex-1 text-left">
-                <p className="mb-3 text-xs uppercase tracking-[0.18em] text-white/40">Instruction</p>
+                <p className="mb-3 text-xs uppercase tracking-[0.18em] text-soft">Instruction</p>
                 <textarea
                   value={analysisPreference}
                   onChange={(event) => setAnalysisPreference(event.target.value)}
@@ -140,7 +138,7 @@ const Dashboard = () => {
                 type="button"
                 onClick={startAnalysis}
                 disabled={isUploading}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white text-black transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--accent)] text-white transition-transform hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isUploading ? <Loader2 size={18} className="animate-spin" /> : <SendHorizontal size={18} />}
               </button>
@@ -165,10 +163,12 @@ const Dashboard = () => {
               </button>
             ))}
           </div>
-        </div>
+          </PanelCard>
+        </MainColumn>
 
-        <div className="page-grid-rail panel-stack">
-          <div className="panel-card panel-card-compact p-5">
+        <RailColumn>
+          <PanelStack>
+          <PanelCard compact className="p-5">
             <div className="panel-header">
               <p className="panel-title">How the workspace flows</p>
               <p className="panel-copy">A minimal handoff from upload to reading, questions, and recap.</p>
@@ -181,9 +181,9 @@ const Dashboard = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </PanelCard>
 
-          <div className="panel-card panel-card-compact p-5">
+          <PanelCard compact className="p-5">
             <div className="panel-header">
               <p className="panel-title">Good starting prompts</p>
               <p className="panel-copy">Keep the instruction short and outcome-focused.</p>
@@ -203,10 +203,11 @@ const Dashboard = () => {
               Open full upload page
               <ArrowRight size={16} />
             </button>
-          </div>
-        </div>
-      </section>
-    </div>
+          </PanelCard>
+          </PanelStack>
+        </RailColumn>
+      </PageGrid>
+    </PageScaffold>
   );
 };
 

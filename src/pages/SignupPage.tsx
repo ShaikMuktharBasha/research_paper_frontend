@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrainCircuit, Loader2, UserPlus } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import AuthScaffold from '../components/AuthScaffold';
 
 const signupNotes = [
   'Keep uploads, summaries, quizzes, and created papers under one account.',
@@ -41,26 +42,12 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-6xl items-center justify-center px-4 py-10">
-      <div className="grid w-full max-w-5xl gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
-        <section className="auth-hero-card flex flex-col justify-between">
-          <div>
-            <p className="page-kicker">Create account</p>
-            <h1 className="page-title mt-0 max-w-[12ch]">Set up your account and keep the whole workflow together.</h1>
-            <p className="page-copy max-w-xl">
-              Create one simple sign-in to manage uploads, saved workspaces, quizzes, and paper exports from the same minimal app shell.
-            </p>
-          </div>
-
-          <div className="mt-8 space-y-3">
-            {signupNotes.map((note) => (
-              <div key={note} className="auth-point">
-                {note}
-              </div>
-            ))}
-          </div>
-        </section>
-
+    <AuthScaffold
+      kicker="Create account"
+      title="Set up your account and keep the whole workflow together."
+      description="Create one simple sign-in to manage uploads, saved workspaces, quizzes, and paper exports from the same minimal app shell."
+      notes={signupNotes}
+    >
         <section className="panel-card rounded-[32px] p-6 md:p-8">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
@@ -144,8 +131,7 @@ const SignupPage = () => {
             </Link>
           </p>
         </section>
-      </div>
-    </div>
+    </AuthScaffold>
   );
 };
 

@@ -11,6 +11,7 @@ import {
 } from 'docx';
 import { jsPDF } from 'jspdf';
 import { API_BASE_URL } from '../config/api';
+import { MainColumn, PageGrid, PageScaffold, PanelCard, PanelStack, RailColumn } from '../components/PageScaffold';
 
 type PaperResponse = {
   title: string;
@@ -494,17 +495,15 @@ const CreatePaperPage = () => {
   };
 
   return (
-    <div className="page-shell animate-rise">
-      <section className="page-hero">
-        <p className="page-kicker">Paper builder</p>
-        <h1 className="page-title page-title-fluid">Assemble your sections into a cleaner paper export.</h1>
-        <p className="page-copy">
-          Fill in the parts you already know, choose a format, and generate a downloadable research-paper file without leaving the app.
-        </p>
-      </section>
-
-      <section className="page-grid page-grid--builder">
-        <div className="page-grid-main panel-card p-6 md:p-8">
+    <PageScaffold
+      kicker="Paper builder"
+      title="Assemble your sections into a cleaner paper export."
+      titleClassName="page-title-fluid"
+      description="Fill in the parts you already know, choose a format, and generate a downloadable research-paper file without leaving the app."
+    >
+      <PageGrid variant="builder">
+        <MainColumn>
+          <PanelCard className="p-6 md:p-8">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
               <PencilLine size={20} />
@@ -583,10 +582,12 @@ const CreatePaperPage = () => {
             {isBuilding ? <Loader2 className="animate-spin" size={16} /> : <Download size={16} />}
             Build and download {selectedFormat === 'pdf' ? 'PDF' : 'Word'}
           </button>
-        </div>
+          </PanelCard>
+        </MainColumn>
 
-        <div className="page-grid-rail panel-stack">
-          <div className="panel-card panel-card-compact p-5">
+        <RailColumn>
+          <PanelStack>
+          <PanelCard compact className="p-5">
             <div className="panel-header">
               <p className="panel-title">Builder notes</p>
               <p className="panel-copy">A few details worth keeping in mind before exporting.</p>
@@ -598,9 +599,9 @@ const CreatePaperPage = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </PanelCard>
 
-          <div className="panel-card min-h-[640px] p-6">
+          <PanelCard className="min-h-[640px] p-6">
             {result ? (
               <div className="flex h-full flex-col">
                 <div className="flex flex-col gap-4 border-b border-[var(--border)] pb-5">
@@ -667,10 +668,11 @@ const CreatePaperPage = () => {
                 </div>
               </div>
             )}
-          </div>
-        </div>
-      </section>
-    </div>
+          </PanelCard>
+          </PanelStack>
+        </RailColumn>
+      </PageGrid>
+    </PageScaffold>
   );
 };
 

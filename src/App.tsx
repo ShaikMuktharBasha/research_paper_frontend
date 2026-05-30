@@ -5,7 +5,6 @@ import CreatePaperPage from './pages/CreatePaperPage'
 import ResultPage from './pages/ResultPage'
 import UploadPage from './pages/UploadPage'
 import Sidebar from './components/Sidebar'
-import Silk from './components/Silk'
 import { Circle } from 'lucide-react'
 import LoginPage from './pages/LoginPage'
 import SignupPage from './pages/SignupPage'
@@ -90,21 +89,9 @@ function AppLayout() {
   const shellMeta = getShellMeta(location.pathname)
 
   return (
-    <div className="relative min-h-screen overflow-hidden text-main transition-colors duration-300">
-      <div className="pointer-events-none fixed inset-0">
-        <Silk
-          className="silk-canvas h-full w-full"
-          speed={5}
-          scale={1}
-          color="#7B7481"
-          noiseIntensity={1.5}
-          rotation={0}
-        />
-        <div className="silk-overlay absolute inset-0" />
-      </div>
-
+    <div className="min-h-screen bg-[var(--bg)] text-main transition-colors duration-300">
       {isAuthPage ? (
-        <div className="relative z-10">
+        <div>
           <Routes>
             <Route element={<PublicOnlyRoute />}>
               <Route path="/login" element={<LoginPage />} />
@@ -114,9 +101,9 @@ function AppLayout() {
           </Routes>
         </div>
       ) : (
-        <div className="relative z-10 flex min-h-screen w-full bg-transparent">
+        <div className="flex min-h-screen w-full">
           <Sidebar />
-          <main className="min-w-0 flex-1 pt-16 md:pt-0">
+          <main className="min-w-0 flex-1 bg-[var(--bg)] pt-16 md:pt-0">
             <div className="workspace-panel flex min-h-screen flex-col overflow-hidden">
               <header className="shell-topbar">
                 <div className="shell-topbar-inner">

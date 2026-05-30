@@ -4,6 +4,7 @@ import { AlertCircle, FileText, Loader2, UploadCloud } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { API_BASE_URL } from '../config/api';
+import { MainColumn, PageGrid, PageScaffold, PanelCard, PanelStack, RailColumn } from '../components/PageScaffold';
 
 const uploadFlow = [
   'Extract readable text from the PDF.',
@@ -79,17 +80,14 @@ const UploadPage = () => {
         : '';
 
   return (
-    <div className="page-shell animate-rise">
-      <section className="page-hero">
-        <p className="page-kicker">Upload flow</p>
-        <h1 className="page-title">Upload once and move into a cleaner reading workspace.</h1>
-        <p className="page-copy">
-          Add a quick instruction, choose a PDF, and let the app open a dedicated result page for the finished analysis.
-        </p>
-      </section>
-
-      <section className="page-grid page-grid--dashboard">
-        <div className="page-grid-main panel-card p-6 md:p-8">
+    <PageScaffold
+      kicker="Upload flow"
+      title="Upload once and move into a cleaner reading workspace."
+      description="Add a quick instruction, choose a PDF, and let the app open a dedicated result page for the finished analysis."
+    >
+      <PageGrid variant="dashboard">
+        <MainColumn>
+          <PanelCard className="p-6 md:p-8">
           <div className="panel-header">
             <div className="flex flex-wrap items-center gap-3">
               <span className="section-badge">Upload paper</span>
@@ -152,10 +150,12 @@ const UploadPage = () => {
               <span>{error}</span>
             </div>
           ) : null}
-        </div>
+          </PanelCard>
+        </MainColumn>
 
-        <div className="page-grid-rail panel-stack">
-          <div className="panel-card panel-card-compact p-5">
+        <RailColumn>
+          <PanelStack>
+          <PanelCard compact className="p-5">
             <div className="panel-header">
               <p className="panel-title">What happens next</p>
               <p className="panel-copy">A short, predictable flow from upload to analysis.</p>
@@ -168,9 +168,9 @@ const UploadPage = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </PanelCard>
 
-          <div className="panel-card panel-card-compact p-5">
+          <PanelCard compact className="p-5">
             <div className="panel-header">
               <p className="panel-title">Best results</p>
               <p className="panel-copy">A few small habits keep the output cleaner.</p>
@@ -182,10 +182,11 @@ const UploadPage = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-    </div>
+          </PanelCard>
+          </PanelStack>
+        </RailColumn>
+      </PageGrid>
+    </PageScaffold>
   );
 };
 

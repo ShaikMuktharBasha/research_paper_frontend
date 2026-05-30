@@ -13,6 +13,7 @@ import {
 import axios from 'axios';
 import { Link, useSearchParams } from 'react-router-dom';
 import { API_BASE_URL } from '../config/api';
+import { MainColumn, PageGrid, PageScaffold, PanelCard, PanelStack, RailColumn } from '../components/PageScaffold';
 
 type UploadResult = {
   doc_id: string;
@@ -236,44 +237,36 @@ const ResultPage = () => {
 
   if (isLoadingPaper) {
     return (
-      <div className="page-shell animate-rise">
-        <section className="page-hero">
-          <p className="page-kicker">Paper workspace</p>
-          <h1 className="page-title">Opening your saved analysis.</h1>
-        </section>
-        <section className="panel-card p-6">
+      <PageScaffold kicker="Paper workspace" title="Opening your saved analysis.">
+        <PanelCard className="p-6">
           <p className="panel-copy">Loading summary, explanation, and study tools.</p>
           <div className="mt-5 grid gap-4">
             {[1, 2, 3].map((item) => (
               <div key={item} className="subtle-panel rounded-[20px] p-5">
-                <div className="h-3 w-28 rounded-full bg-slate-900/10 dark:bg-white/10" />
+                <div className="h-3 w-28 rounded-full bg-[var(--surface-subtle)]" />
                 <div className="mt-4 space-y-2">
-                  <div className="h-2 rounded-full bg-slate-900/10 dark:bg-white/10" />
-                  <div className="h-2 w-11/12 rounded-full bg-slate-900/10 dark:bg-white/10" />
-                  <div className="h-2 w-9/12 rounded-full bg-slate-900/10 dark:bg-white/10" />
+                  <div className="h-2 rounded-full bg-[var(--surface-subtle)]" />
+                  <div className="h-2 w-11/12 rounded-full bg-[var(--surface-subtle)]" />
+                  <div className="h-2 w-9/12 rounded-full bg-[var(--surface-subtle)]" />
                 </div>
               </div>
             ))}
           </div>
-        </section>
-      </div>
+        </PanelCard>
+      </PageScaffold>
     );
   }
 
   if (error) {
     return (
-      <div className="page-shell animate-rise">
-        <section className="page-hero">
-          <p className="page-kicker">Paper workspace</p>
-          <h1 className="page-title">This paper could not be opened right now.</h1>
-        </section>
-        <section className="panel-card p-6">
+      <PageScaffold kicker="Paper workspace" title="This paper could not be opened right now.">
+        <PanelCard className="p-6">
           <div className="flex items-start gap-3 rounded-[18px] border border-red-400/20 bg-red-400/10 px-4 py-4 text-sm text-red-700 dark:text-red-300">
             <AlertCircle size={18} className="mt-0.5 shrink-0" />
             <span>{error}</span>
           </div>
-        </section>
-      </div>
+        </PanelCard>
+      </PageScaffold>
     );
   }
 
@@ -282,30 +275,27 @@ const ResultPage = () => {
   }
 
   return (
-    <div className="page-shell animate-rise">
-      <section className="page-hero">
-        <p className="page-kicker">Paper workspace</p>
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="min-w-0">
-            <h1 className="page-title page-title-document">{result.filename}</h1>
-            <p className="page-copy">
-              Review the summary, switch between explanation modes, ask focused questions, and generate a compact recap quiz without leaving the same workspace.
-            </p>
-          </div>
+    <PageScaffold
+      kicker="Paper workspace"
+      title={result.filename}
+      titleClassName="page-title-document"
+      description="Review the summary, switch between explanation modes, ask focused questions, and generate a compact recap quiz without leaving the same workspace."
+      actions={
+        <div className="flex flex-col items-start gap-3 md:items-end">
           <Link to="/" className="secondary-button shrink-0 rounded-[18px]">
             Start new analysis
           </Link>
+          <div className="flex flex-wrap gap-3">
+            <span className="stat-chip">{result.stats.total_pages} pages</span>
+            <span className="stat-chip">{result.stats.word_count.toLocaleString()} words</span>
+            <span className="stat-chip">{result.stats.reading_time_minutes} min read</span>
+          </div>
         </div>
-
-        <div className="mt-6 flex flex-wrap gap-3">
-          <span className="stat-chip">{result.stats.total_pages} pages</span>
-          <span className="stat-chip">{result.stats.word_count.toLocaleString()} words</span>
-          <span className="stat-chip">{result.stats.reading_time_minutes} min read</span>
-        </div>
-      </section>
-
-      <section className="page-grid page-grid--workspace">
-        <div className="page-grid-main panel-card flex flex-col p-6 md:p-8">
+      }
+    >
+      <PageGrid variant="workspace">
+        <MainColumn>
+          <PanelCard className="flex flex-col p-6 md:p-8">
           <div className="flex flex-col gap-4 border-b border-[var(--border)] pb-5 md:flex-row md:items-start md:justify-between">
             <div className="flex items-center gap-3">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] bg-[var(--brand-soft)] text-[var(--accent-strong)]">
@@ -331,8 +321,8 @@ const ResultPage = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 ${
                   activeTab === tab.id
-                    ? 'bg-[var(--text-strong)] text-[var(--bg)] shadow-[0_14px_30px_rgba(0,0,0,0.16)] dark:bg-white dark:text-slate-950'
-                    : 'border border-[var(--border)] bg-[var(--surface-subtle)] text-soft hover:border-[var(--border-strong)]'
+                    ? 'bg-[var(--brand-soft)] text-[var(--text-strong)] shadow-none border border-[color:var(--border-strong)]'
+                    : 'border border-[var(--border)] bg-[var(--surface)] text-soft hover:border-[var(--border-strong)]'
                 }`}
               >
                 {tab.label}
@@ -357,10 +347,12 @@ const ResultPage = () => {
               className="input-surface mt-4 min-h-[112px] resize-none rounded-[18px]"
             />
           </div>
-        </div>
+          </PanelCard>
+        </MainColumn>
 
-        <div className="page-grid-rail panel-stack">
-          <div className="panel-card panel-card-compact p-5">
+        <RailColumn>
+          <PanelStack>
+          <PanelCard compact className="p-5">
             <div className="panel-header">
               <p className="panel-title">Document snapshot</p>
               <p className="panel-copy">A quick read on the size and pace of this paper.</p>
@@ -388,9 +380,10 @@ const ResultPage = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </PanelCard>
 
-          <div ref={chatSectionRef} className="panel-card panel-card-compact p-5">
+          <PanelCard compact className="p-5" >
+          <div ref={chatSectionRef}>
             <div className="flex items-center gap-2">
               <MessageSquare size={18} className="text-[var(--accent-strong)]" />
               <h3 className="panel-title">Ask the paper</h3>
@@ -443,8 +436,10 @@ const ResultPage = () => {
               </div>
             )}
           </div>
+          </PanelCard>
 
-          <div ref={quizSectionRef} className="panel-card panel-card-compact p-5">
+          <PanelCard compact className="p-5">
+          <div ref={quizSectionRef}>
             <div className="flex items-center gap-2">
               <FileQuestion size={18} className="text-[var(--accent-strong)]" />
               <h3 className="panel-title">Quick quiz</h3>
@@ -473,9 +468,11 @@ const ResultPage = () => {
               </div>
             )}
           </div>
-        </div>
-      </section>
-    </div>
+          </PanelCard>
+          </PanelStack>
+        </RailColumn>
+      </PageGrid>
+    </PageScaffold>
   );
 };
 
