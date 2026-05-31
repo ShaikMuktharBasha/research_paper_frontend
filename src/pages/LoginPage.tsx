@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Loader2, LogIn, Zap, MessageSquare, Target } from 'lucide-react';
+import { ArrowRight, Loader2, LogIn, BrainCircuit } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -30,9 +30,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="h-screen w-full overflow-hidden bg-[#f4efe8] text-[var(--text-strong)]">
-      <div className="grid h-full lg:grid-cols-[1.08fr_0.92fr]">
-        <section className="relative hidden h-full overflow-hidden bg-gradient-to-br from-[#d97d36] via-[#ebb184] to-[#f4d4b3] lg:block">
+    <div className="min-h-screen bg-[#f4efe8] text-[var(--text-strong)]">
+      <div className="grid min-h-screen lg:grid-cols-[1.08fr_0.92fr]">
+        <section className="relative min-h-[300px] overflow-hidden bg-gradient-to-br from-[#d97d36] via-[#ebb184] to-[#f4d4b3] lg:min-h-screen">
           <img
             src="https://images.unsplash.com/photo-1509316785289-025f5b846b35?q=80&w=2000&auto=format&fit=crop"
             alt="Desert dunes"
@@ -40,8 +40,24 @@ const LoginPage = () => {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-orange-900/30 via-transparent to-orange-950/40" />
 
-          <div className="relative z-10 flex h-full items-center justify-center p-6 sm:p-8 lg:p-10">
-            <div className="w-full max-w-xl rounded-[32px] border border-white/30 bg-orange-950/20 p-6 text-white backdrop-blur-md sm:p-8 shadow-xl">
+          <div className="relative z-10 flex h-full flex-col justify-between p-6 sm:p-8 lg:p-10">
+            <div className="flex items-center justify-between gap-4">
+              <div className="inline-flex items-center gap-3 rounded-full border border-white/50 bg-white/70 px-4 py-2 text-sm font-medium text-[#17212b] backdrop-blur shadow-sm">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500 text-white">
+                  <BrainCircuit size={18} />
+                </span>
+                Research Simplifier
+              </div>
+
+              <Link
+                to="/signup"
+                className="hidden rounded-full border border-white/60 bg-white/20 px-4 py-2 text-sm font-medium text-white backdrop-blur transition-colors hover:bg-white/30 sm:inline-flex"
+              >
+                Sign up
+              </Link>
+            </div>
+
+            <div className="max-w-xl rounded-[32px] border border-white/30 bg-orange-950/20 p-6 text-white backdrop-blur-md sm:p-8 shadow-xl">
               <p className="text-xs font-bold uppercase tracking-[0.22em] text-orange-100">Unlock your potential</p>
               <h1 className="mt-4 text-3xl font-semibold tracking-[-0.05em] sm:text-5xl text-white">
                 Simplify Complex Research
@@ -52,21 +68,15 @@ const LoginPage = () => {
               
               <ul className="mt-8 space-y-4">
                 <li className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-white">
-                    <Zap size={20} />
-                  </div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">💡</div>
                   <span className="text-sm font-medium text-white">Instant AI-Powered Summaries</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-white">
-                    <MessageSquare size={20} />
-                  </div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">💬</div>
                   <span className="text-sm font-medium text-white">Interactive PDF Q&A</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-white">
-                    <Target size={20} />
-                  </div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">🎯</div>
                   <span className="text-sm font-medium text-white">Automated Knowledge Quizzes</span>
                 </li>
               </ul>
@@ -74,15 +84,15 @@ const LoginPage = () => {
           </div>
         </section>
 
-        <section className="flex h-full flex-col justify-center overflow-y-auto bg-[#fcfaf7] px-5 py-6 sm:px-8 lg:px-12">
-          <div className="mx-auto w-full max-w-[430px]">
+        <section className="flex min-h-screen items-center justify-center bg-[#fcfaf7] px-5 py-6 sm:px-8 lg:px-12">
+          <div className="w-full max-w-[430px]">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-medium uppercase tracking-[0.18em] text-[var(--text-soft)]">
                 Secure login
               </p>
               <Link
                 to="/signup"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--text-strong)] transition-colors hover:text-[var(--accent-strong)]"
+                className="inline-flex items-center gap-2 rounded-full bg-orange-50 px-4 py-2 text-sm font-medium text-orange-600 transition-colors hover:bg-orange-100"
               >
                 Create account
                 <ArrowRight size={16} />
@@ -98,7 +108,7 @@ const LoginPage = () => {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+            <form onSubmit={handleSubmit} className="mt-10 space-y-5">
               <div>
                 <label className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--text-soft)]">
                   Email

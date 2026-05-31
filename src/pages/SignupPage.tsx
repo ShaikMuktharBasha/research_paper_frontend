@@ -97,7 +97,7 @@ const SignupPage = () => {
               </p>
               <Link
                 to="/login"
-                className="inline-flex items-center gap-2 text-sm font-medium text-[var(--text-strong)] transition-colors hover:text-orange-600"
+                className="inline-flex items-center gap-2 rounded-full bg-orange-50 px-4 py-2 text-sm font-medium text-orange-600 transition-colors hover:bg-orange-100"
               >
                 Go to login
                 <ArrowRight size={16} />
