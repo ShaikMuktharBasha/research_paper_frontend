@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Loader2, LogIn, BrainCircuit } from 'lucide-react';
+import { ArrowRight, Loader2, LogIn, BrainCircuit, Lightbulb, MessageSquare, Target } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -52,15 +52,21 @@ const LoginPage = () => {
               
               <ul className="mt-8 space-y-4">
                 <li className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">💡</div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-white">
+                    <Lightbulb size={20} />
+                  </div>
                   <span className="text-sm font-medium text-white">Instant AI-Powered Summaries</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">💬</div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-white">
+                    <MessageSquare size={20} />
+                  </div>
                   <span className="text-sm font-medium text-white">Interactive PDF Q&A</span>
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-lg">🎯</div>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-500/40 backdrop-blur border border-white/10 shadow-sm text-white">
+                    <Target size={20} />
+                  </div>
                   <span className="text-sm font-medium text-white">Automated Knowledge Quizzes</span>
                 </li>
               </ul>
